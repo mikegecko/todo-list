@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
-
+/* Color scheme
+    Cerulean: #4484CE
+    Aluminium: #D9D9D9
+    Light: #F9CF00
+    Tangerine: #F19F4D
+*/
 /* Rules for sizing the icon. */
 .material-icons.md-18 {
     font-size: 18px;
@@ -24,7 +29,15 @@
 * {
     font-family: 'Raleway', sans-serif;
 }
-
+body{
+    height: 100vh;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100%;
+}
 .header {
     display: flex;
     justify-content: center;
@@ -36,4 +49,8 @@
     display: flex;
     width: 100%;
     gap: 1rem;
+}
+.content{
+    flex: 1;
+    background-color: #D9D9D9;
 }
