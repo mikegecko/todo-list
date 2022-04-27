@@ -63,12 +63,19 @@ body{
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
-    
+    box-shadow: 0 5px 25px 0 rgba(0,0,0,.25);
+    transition: transform 300ms, box-shadow 300ms;
+}
+.project:hover{
+    transform: scale(1.05);
+    box-shadow: 0 15px 60px 0 rgba(0,0,0,.25);
 }
 .project-priority{
     background-color: #F19F4D;
     border-radius: .5rem;
+    text-align: center;
 }
+
 .project-ctrl{
     display: flex;
     align-items: center;
