@@ -53,10 +53,12 @@ body{
 .content{
     flex: 1;
     background-color: #D9D9D9;
+    
 }
 .project{
-    height: 300px;
-    width: 300px;
+    height: 350px;
+    width: 350px;
+    min-width: 250px;
     background-color: white;
     padding: 1rem;
     margin: 2rem;
@@ -76,11 +78,15 @@ body{
     background-color: #F19F4D;
     border-radius: .5rem;
     text-align: center;
+    
 }
-
+.project-content{
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 .project-ctrl{
     display: flex;
     align-items: center;
-    padding: .8rem;
     gap: .3rem;
 }
