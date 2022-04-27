@@ -54,3 +54,24 @@ body{
     flex: 1;
     background-color: #D9D9D9;
 }
+.project{
+    height: 300px;
+    width: 300px;
+    background-color: white;
+    padding: 1rem;
+    margin: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    
+}
+.project-priority{
+    background-color: #F19F4D;
+    border-radius: .5rem;
+}
+.project-ctrl{
+    display: flex;
+    align-items: center;
+    padding: .8rem;
+    gap: .3rem;
+}
