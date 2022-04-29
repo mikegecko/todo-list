@@ -44,7 +44,10 @@ body{
     align-items: center;
     background-color: #F19F4D;
 }
-
+.header>div{
+    display: flex;
+    align-items: center;
+}
 .control-bar {
     display: flex;
     gap: 1rem;

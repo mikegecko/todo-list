@@ -1,11 +1,11 @@
 /*
 Project properties:
     title
-    duedate
     description
     dateCreated
     todoList
     checklist
+
 Todo properties:
     title
     description
@@ -22,3 +22,5 @@ Todo properties:
     expand todo to view/edit details(todo modal)
     delete todo/project
 */
+
+
