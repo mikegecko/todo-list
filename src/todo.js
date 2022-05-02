@@ -1,14 +1,26 @@
 // Todo factory
 /*
-                    Project-----------------------
-                        ||                      ||
-                Array TodoList----------------   Name
-                        ||                ||      
-        [-----------TodoItem--------]  ...Todo Items     
+                    Project <--not needed
+                        ||                      
+                Array TodoList------------------------------
+                        ||                ||              ||
+        [-----------TodoItem--------]  ...Todo Items     Name
         |   |       |     |        |
       name duedate notes priority isChecked
 */  
-const TodoItem = ({name, dueDate, notes, priority, isChecked, id}) => {
+//TodoList Constructor
+function TodoList(name, index, todoList){
+    this.name = name || "";
+    this.index = index || 0;
+    this.todoList = todoList || [];
+    this.addTodoItem = function (name, dueDate, notes, priority, isChecked){
+        let newID = this.todoList.length;
+        let newTodoItem = new TodoItem(name, newID, dueDate, notes, priority, isChecked)
+        this.todoList.push(newTodoItem);
+    }
+}
+//TodoItem Constructor
+function TodoItem(name, id, dueDate, notes, priority, isChecked){
     this.name = name || "";
     this.dueDate = dueDate || newDate(); //This probably wont work
     this.notes = notes || "";
@@ -16,10 +28,12 @@ const TodoItem = ({name, dueDate, notes, priority, isChecked, id}) => {
     this.isChecked = isChecked || false;
     this.id = id;
 }
-//This todo list needs to go under a Project object
-const todoList = [];
-//Create a TodoItem and add it to todoList under proper Project
-function addTodoItem (){
-    let newItem = new TodoItem();
-    todoList.push(newItem);
+const defaultList = new TodoList("Default", 0);
+defaultList.addTodoItem("Clean Room",Date.now(),"Use vacuum", 1, false);
+console.table(defaultList.todoList);
+
+
+export{
+    TodoList,TodoItem
 }
+
