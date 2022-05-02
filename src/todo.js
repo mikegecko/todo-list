@@ -65,13 +65,12 @@ function TodoItem(name, id, dueDate, notes, priority, isChecked) {
 }
 //Testing values & methods
 const LoL = []; //List of Lists
-const defaultList = new TodoList("Default", LoL.length);
+const defaultList = new TodoList("Default Project", LoL.length);
 LoL.push(defaultList);
 defaultList.addTodoItem("Clean Room", "Use vacuum", 1, format(startOfTomorrow(), 'PPPP'));
 defaultList.addTodoItem("Play games", "Minecraft", 2);
-defaultList.addTodoItem("Play games", "Minecraft", 3);
-defaultList.addTodoItem("Play games", "Minecraft", 4);
-defaultList.removeTodoItem(2);
+defaultList.addTodoItem("Play games", "No Man's Sky", 3);
+defaultList.addTodoItem("Play games", "Apex Legends", 4);
 console.table(defaultList.todoList);
 
 
