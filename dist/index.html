@@ -20,19 +20,19 @@
                 </span>Total todo #
             </div>
             <div class="control-bar">
-                <button><span class="material-symbols-outlined">
+                <button id="addProject"><span class="material-symbols-outlined">
                         add
                     </span></button>
-                <button><span class="material-symbols-outlined">
+                <button id="editProject"><span class="material-symbols-outlined">
                         edit
                     </span></button>
-                <button><span class="material-symbols-outlined">
+                <button id="delProject"><span class="material-symbols-outlined">
                         delete
                     </span></button>
-                <button><span class="material-symbols-outlined">
+                <button id="viewToggle"><span class="material-symbols-outlined">
                         expand_more
                     </span></button>
-                <button>Delete Local Data</button>
+                <button id="delLocalData">Delete Local Data</button>
 
             </div>
         </div>
@@ -44,20 +44,28 @@
                     <li>Default Project</li>
                 </ul>
             </div>
-            <div class="project">
-                <h2>Default Project</h2>
-                <div class="project-content">
-                    <div>
-                        <div>Todo Item #1
-                            <div class="notes">Notes</div>
+            <div class="project-container">
+                <div class="project">
+                    <h2>Default Project</h2>
+                    <div class="project-content">
+                        <div class="todo-item">
+                            <div>
+                                Todo Item #1
+                                <div class="notes">Notes</div>
+                            </div>
+                            <div>due date</div>
                         </div>
-                        <div>due date</div>
-                    </div>
-                    <div>Todo Item #2
-                        <div>due date</div>
+                        <div>
+                            <div>
+                                Todo Item #2
+                                <div class="notes">Notes</div>
+                            </div>
+                            <div>due date</div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </body>

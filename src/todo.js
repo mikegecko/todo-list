@@ -64,7 +64,7 @@ function TodoItem(name, id, dueDate, notes, priority, isChecked) {
 }
 //Testing values & methods
 const LoL = []; //List of Lists
-const defaultList = new TodoList("Default", 0);
+const defaultList = new TodoList("Default", LoL.length);
 LoL.push(defaultList);
 defaultList.addTodoItem("Clean Room", "Use vacuum", 1, startOfTomorrow());
 defaultList.addTodoItem("Play games", "Minecraft", 2);
@@ -76,5 +76,6 @@ console.table(defaultList.todoList);
 
 export {
     TodoList,
-    TodoItem
+    TodoItem,
+    LoL
 }

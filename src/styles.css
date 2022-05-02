@@ -72,7 +72,7 @@ body{
 .project-list{
     list-style-type: none;
 }
-.project{
+.project-container{
     margin: 1rem;
     flex: 1;
 }
