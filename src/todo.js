@@ -1,16 +1,35 @@
 // Todo factory
 /*
-                    Project <--not needed
-                        ||                      
-                Array TodoList------------------------------
-                        ||                ||              ||
-        [-----------TodoItem--------]  ...Todo Items     Name
-        |   |       |     |        |
-      name duedate notes priority isChecked
+   
+  ┌────────────────────┐          ┌───────────────────┐
+  │                    │          │                   │
+  │   List of Lists    ├──────────┤     TodoList      │
+  │                    │          │                   │
+  └────────────────────┘          └──────────┬────────┘
+                                             │
+                                             │
+                                  ┌──────────┴────────┐
+                                  │                   │
+                                  │     TodoItem      │
+                                  │                   │
+                                  └─┬──┬──┬──┬──┬─────┘
+                                    │  │  │  │  │
+                                    │  │  │  │  │
+                              name ─┘  │  │  │  │
+                                       │  │  │  │
+                             dueDate ──┘  │  │  │
+                                          │  │  │
+                              notes ──────┘  │  │
+                                             │  │
+                             priority ───────┘  │
+                                                │
+                             isChecked ─────────┘
+
+
 */
 import { startOfToday, startOfTomorrow } from "date-fns";
 
-  
+//TODO: Setup storage methods for fetching and setting JSON data in localStorage
 //TodoList Constructor
 function TodoList(name, index, todoList){
     this.name = name || "";
@@ -41,7 +60,9 @@ function TodoItem(name, id, dueDate, notes, priority, isChecked){
     this.id = id;
 }
 //Testing values & methods
+const LoL = [];//List of Lists
 const defaultList = new TodoList("Default", 0);
+LoL.push(defaultList);
 defaultList.addTodoItem("Clean Room","Use vacuum", 1, startOfTomorrow());
 defaultList.addTodoItem("Play games", "Minecraft", 2);
 defaultList.addTodoItem("Play games", "Minecraft", 3);
