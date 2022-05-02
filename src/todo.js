@@ -7,13 +7,16 @@
         [-----------TodoItem--------]  ...Todo Items     Name
         |   |       |     |        |
       name duedate notes priority isChecked
-*/  
+*/
+import { startOfToday, startOfTomorrow } from "date-fns";
+
+  
 //TodoList Constructor
 function TodoList(name, index, todoList){
     this.name = name || "";
     this.index = index || 0;
     this.todoList = todoList || [];
-    this.addTodoItem = function (name, dueDate, notes, priority, isChecked){
+    this.addTodoItem = function (name, notes, priority, dueDate, isChecked){
         let newID = this.todoList.length;
         let newTodoItem = new TodoItem(name, newID, dueDate, notes, priority, isChecked)
         this.todoList.push(newTodoItem);
@@ -31,7 +34,7 @@ function TodoList(name, index, todoList){
 //TodoItem Constructor
 function TodoItem(name, id, dueDate, notes, priority, isChecked){
     this.name = name || "";
-    this.dueDate = dueDate || newDate(); //This probably wont work
+    this.dueDate = dueDate || startOfToday(); //This probably wont work
     this.notes = notes || "";
     this.priority = priority || 0;
     this.isChecked = isChecked || false;
@@ -39,10 +42,10 @@ function TodoItem(name, id, dueDate, notes, priority, isChecked){
 }
 //Testing values & methods
 const defaultList = new TodoList("Default", 0);
-defaultList.addTodoItem("Clean Room",Date.now(),"Use vacuum", 1, false);
-defaultList.addTodoItem("Play games",Date.now(), "Minecraft", 2 ,false);
-defaultList.addTodoItem("Play games",Date.now(), "Minecraft", 2 ,false);
-defaultList.addTodoItem("Play games",Date.now(), "Minecraft", 2 ,false);
+defaultList.addTodoItem("Clean Room","Use vacuum", 1, startOfTomorrow());
+defaultList.addTodoItem("Play games", "Minecraft", 2);
+defaultList.addTodoItem("Play games", "Minecraft", 3);
+defaultList.addTodoItem("Play games", "Minecraft", 4);
 defaultList.removeTodoItem(2);
 console.table(defaultList.todoList);
 
