@@ -24,6 +24,8 @@ const DOMController = (() => {
     const delLocalDataBtn = document.querySelector('#delLocalData');
     //TODO: create 'add' button with unique id's for adding a todoItem to appropriate project/todoList -> will bring up add todo modal
     //TODO: create 'edit' button that shows/hides when hovering over an editable element -> will bring up edit modal
+    //TODO: Add priority colors & implement checkboxes
+    //TODO: Add ability to expand & collapse projects in both project space and sidebar
     //Add handlers
     addProjectBtn.addEventListener('click', listener);
     editProjectBtn.addEventListener('click', listener);
@@ -33,6 +35,7 @@ const DOMController = (() => {
     //This updates the DOM to reflect data stored locally(eventually)
     //Currently loads default project from todo.js
     const update = () => {
+        removeAllChildNodes(projectContainer);
         LoL.forEach(element => {
             createProject(element);
             console.log(element);
@@ -75,4 +78,10 @@ const DOMController = (() => {
 function listener (){
     console.log('Button Clicked');
     DOMController.update();
+}
+
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
 }
