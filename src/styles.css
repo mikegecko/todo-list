@@ -157,11 +157,28 @@ button:hover{
     margin: 1rem;
     height: 50px;
 }
+.add-item{
+    font-size: 18px;
+    border-bottom: 2px solid rgb(236, 236, 236);
+    display: flex;
+    flex-direction: row;
+    margin: 1rem;
+    margin-top: 0;
+    height: 50px;
+    padding-left: 1rem;
+    color: #797979;
+}
+.add-item:hover{
+    color: black;
+    cursor: pointer;
+}
 .todo-item>div{
     display: flex;
     flex-direction: row;
     gap: 1rem;
+    
 }
+
 .priority-marker{
     cursor: pointer;
     color: black;
@@ -169,6 +186,10 @@ button:hover{
     width: 14px;
     border-radius: 50%;
     border: solid transparent 2px;
+}
+/* I dunno which of the 2 selectors below will work better */
+.todo-item:hover .priority-marker{
+    
 }
 .priority-marker:hover{
     border: solid black 2px;

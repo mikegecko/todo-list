@@ -1,3 +1,8 @@
+import {
+    TodoItem,
+    TodoList,
+    LoL
+} from "./todo";
 /*
     Functions:
     view all projects/todos
@@ -5,11 +10,11 @@
     expand todo to view/edit details(todo modal)
     delete todo/project
 */
-import {
-    TodoItem,
-    TodoList,
-    LoL
-} from "./todo";
+//TODO: create 'add' button with unique id's for adding a todoItem to appropriate project/todoList -> will bring up add todo modal
+//TODO: create 'edit' button that shows/hides when hovering over an editable element -> will bring up edit modal
+//TODO: Add priority colors & implement checkboxes [1/2 Done]
+//TODO: Add ability to expand & collapse projects in both project space and sidebar
+//TODO: Create setter/getter functions for todoItems for interaction with DOM modals
 
 //Maybe break this up into separate modules?
 const DOMController = (() => {
@@ -22,10 +27,7 @@ const DOMController = (() => {
     const delProjectBtn = document.querySelector('#delProject');
     const todoToggleBtn = document.querySelector('#viewToggle');
     const delLocalDataBtn = document.querySelector('#delLocalData');
-    //TODO: create 'add' button with unique id's for adding a todoItem to appropriate project/todoList -> will bring up add todo modal
-    //TODO: create 'edit' button that shows/hides when hovering over an editable element -> will bring up edit modal
-    //TODO: Add priority colors & implement checkboxes
-    //TODO: Add ability to expand & collapse projects in both project space and sidebar
+    
     //Add handlers
     addProjectBtn.addEventListener('click', listener);
     editProjectBtn.addEventListener('click', listener);
@@ -38,10 +40,10 @@ const DOMController = (() => {
         removeAllChildNodes(projectContainer);
         removeAllChildNodes(sidebarList);
         LoL.forEach(element => {
-            loadProjects(element);
+            loadProjects(element, uiCreateAddTodo(element.id));
         });
     }
-    const loadProjects = (project) => {
+    const loadProjects = (project, uiAddTask) => {
         //Loads projects into sidebar
         const projectSidebar = document.createElement('li');
         projectSidebar.textContent = project.name;
@@ -59,7 +61,7 @@ const DOMController = (() => {
             todoDiv.classList.add("todo-item");
             const leftDiv = document.createElement('div');
             const priorityMarker = document.createElement('span');
-            priorityMarker.classList.add("priority-marker", assignPriorityColors(element.priority));
+            priorityMarker.classList.add("priority-marker", uiAssignPriorityColors(element.priority));
             //priorityMarker.textContent = "radio_button_unchecked";
             leftDiv.appendChild(priorityMarker);
             const wrapDiv = document.createElement('div');
@@ -75,13 +77,14 @@ const DOMController = (() => {
             todoDiv.appendChild(dueDateDiv);
             projectContent.appendChild(todoDiv);
         });
+        projectContent.appendChild(uiAddTask);
         projectDiv.appendChild(projectHeader);
         projectDiv.appendChild(projectContent);
         projectContainer.appendChild(projectDiv);
         return;
     }
     //Takes priority of todoItem and returns proper css class string
-    const assignPriorityColors = (priorityVal) => {
+    const uiAssignPriorityColors = (priorityVal) => {
         const defP = "default-priority";
         const lowP = "low-priority";
         const medP = "medium-priority";
@@ -104,6 +107,19 @@ const DOMController = (() => {
                 break;
         }
     }
+    //Creates Add button below each todo list with a unique id tying it to the proper list
+    const uiCreateAddTodo = (projIndex) => {
+        let id = "addTo" + projIndex;
+        const addItem = document.createElement('div');
+        addItem.classList.add("add-item");
+        const spanAdd = document.createElement('span');
+        spanAdd.classList.add("material-symbols-outlined","md-36");
+        spanAdd.textContent = "add";
+        addItem.appendChild(spanAdd);
+        addItem.id = id;
+        addItem.addEventListener('click', listener);
+        return(addItem);
+    }
     return {
         update
     };
@@ -112,6 +128,7 @@ const DOMController = (() => {
 function listener() {
     console.log('Button Clicked');
     DOMController.update();
+    
 }
 
 function removeAllChildNodes(parent) {
