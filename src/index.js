@@ -57,6 +57,11 @@ const DOMController = (() => {
         project.todoList.forEach(element => {
             const todoDiv = document.createElement('div');
             todoDiv.classList.add("todo-item");
+            const leftDiv = document.createElement('div');
+            const priorityMarker = document.createElement('span');
+            priorityMarker.classList.add("material-symbols-outlined", "md-18");
+            priorityMarker.textContent = "radio_button_unchecked";
+            leftDiv.appendChild(priorityMarker);
             const wrapDiv = document.createElement('div');
             wrapDiv.textContent = element.name;
             const notesDiv = document.createElement('div');
@@ -65,7 +70,8 @@ const DOMController = (() => {
             const dueDateDiv = document.createElement('div');
             dueDateDiv.textContent = element.dueDate;
             wrapDiv.appendChild(notesDiv);
-            todoDiv.appendChild(wrapDiv);
+            leftDiv.appendChild(wrapDiv)
+            todoDiv.appendChild(leftDiv);
             todoDiv.appendChild(dueDateDiv);
             projectContent.appendChild(todoDiv);
         });
