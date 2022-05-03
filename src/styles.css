@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
 /* Color scheme
     Cerulean: #4484CE
     Aluminium: #D9D9D9
@@ -21,7 +22,12 @@
 .material-icons.md-48 {
     font-size: 48px;
 }
-
+.material-symbols-outlined.md-30{
+    font-size: 30px;
+}
+.material-symbols-outlined.md-36{
+    font-size: 36px;
+}
 .material-symbols-outlined.md-48 {
     font-size: 48px
 }
@@ -29,58 +35,112 @@
 * {
     font-family: 'Raleway', sans-serif;
 }
-body{
+
+body {
     height: 100vh;
 }
-.container{
+
+.container {
     display: flex;
     flex-direction: column;
     height: 100%;
     min-height: 100%;
 }
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #F19F4D;
 }
-.header>div{
+
+.header>div {
     display: flex;
     align-items: center;
 }
+
 .control-bar {
     display: flex;
     gap: 1rem;
     margin: 1rem;
 }
-.content{
+
+button {
+    background: none;
+    border: none;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    /* Positions the arrow */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+
+.content {
     display: flex;
     flex: 1;
     background-color: #ffffff;
     flex-direction: row;
 }
-.sidebar{
+
+.sidebar {
     background-color: rgb(240, 240, 240);
     width: 300px;
     height: 100vh;
     border-right: 2px solid rgb(236, 236, 236);
 }
-.sidebar>h3{
+
+.sidebar>h3 {
     margin: 1rem 1rem 0 1rem;
     border-bottom: 2px solid #797979;
 }
-.project-list{
+
+.project-list {
     list-style-type: none;
 }
-.project-container{
+
+.project-container {
     margin: 1rem;
     flex: 1;
 }
-.project-content{
+
+.project-content {
     display: flex;
     flex-direction: column;
 }
-.project-content> div{
+
+.project-content>div {
     font-size: 18px;
     border-bottom: 2px solid rgb(236, 236, 236);
     display: flex;
@@ -89,7 +149,8 @@ body{
     margin: 1rem;
     height: 50px;
 }
-.notes{
+
+.notes {
     font-size: .9rem;
     padding-top: 4px;
     padding-left: 1rem;
