@@ -58,7 +58,7 @@ function TodoList(name, index, todoList) {
 //TodoItem Constructor
 function TodoItem(name, id, dueDate, notes, priority, isChecked) {
     this.name = name || "";
-    this.dueDate = dueDate || format(startOfToday(),'PPPP'); //Figure out how to format dueDate
+    this.dueDate = dueDate || format(startOfToday(), 'PPPP'); //Figure out how to format dueDate
     this.notes = notes || "";
     this.priority = priority || 0;
     this.isChecked = isChecked || false;
