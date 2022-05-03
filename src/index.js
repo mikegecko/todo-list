@@ -36,12 +36,17 @@ const DOMController = (() => {
     //Currently loads default project from todo.js
     const update = () => {
         removeAllChildNodes(projectContainer);
+        removeAllChildNodes(sidebarList);
         LoL.forEach(element => {
-            createProject(element);
-            console.log(element);
+            loadProjects(element);
         });
     }
-    const createProject = (project) => {
+    const loadProjects = (project) => {
+        //Loads projects into sidebar
+        const projectSidebar = document.createElement('li');
+        projectSidebar.textContent = project.name;
+        sidebarList.appendChild(projectSidebar);
+        //Loads projects into main container
         const projectDiv = document.createElement('div');
         projectDiv.classList.add("project");
         const projectHeader = document.createElement('h2');
@@ -50,7 +55,6 @@ const DOMController = (() => {
         projectContent.classList.add("project-content");
 
         project.todoList.forEach(element => {
-            console.log(element);
             const todoDiv = document.createElement('div');
             todoDiv.classList.add("todo-item");
             const wrapDiv = document.createElement('div');
