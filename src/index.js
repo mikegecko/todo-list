@@ -59,8 +59,8 @@ const DOMController = (() => {
             todoDiv.classList.add("todo-item");
             const leftDiv = document.createElement('div');
             const priorityMarker = document.createElement('span');
-            priorityMarker.classList.add("material-symbols-outlined", "md-18");
-            priorityMarker.textContent = "radio_button_unchecked";
+            priorityMarker.classList.add("priority-marker");
+            //priorityMarker.textContent = "radio_button_unchecked";
             leftDiv.appendChild(priorityMarker);
             const wrapDiv = document.createElement('div');
             wrapDiv.textContent = element.name;

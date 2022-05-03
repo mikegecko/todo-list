@@ -162,6 +162,13 @@ button:hover{
     flex-direction: row;
     gap: 1rem;
 }
+.priority-marker{
+    color: black;
+    height: 14px;
+    width: 14px;
+    border-radius: 1rem;
+    border: solid black 2px;
+}
 .notes {
     font-size: .9rem;
     padding-top: 4px;
