@@ -88,19 +88,19 @@ const DOMController = (() => {
         const highP = "high-priority";
         switch (priorityVal) {
             case 0:
-                return (defP)
+                return (defP);
                 break;
             case 1:
-                return (lowP)
+                return (lowP);
                 break;
             case 2:
-                return(medP)
+                return (medP);
                 break;
             case 3:
-                return(highP)
+                return (highP);
                 break;
             default:
-                return(defP)
+                return (defP);
                 break;
         }
     }
