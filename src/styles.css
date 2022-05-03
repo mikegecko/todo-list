@@ -163,11 +163,27 @@ button:hover{
     gap: 1rem;
 }
 .priority-marker{
+    cursor: pointer;
     color: black;
     height: 14px;
     width: 14px;
-    border-radius: 1rem;
+    border-radius: 50%;
+    border: solid transparent 2px;
+}
+.priority-marker:hover{
     border: solid black 2px;
+}
+.default-priority{
+    background-color: #797979;
+}
+.high-priority{
+    background-color: red;
+}
+.medium-priority{
+    background-color: orangered;
+}
+.low-priority{
+    background-color: orange;
 }
 .notes {
     font-size: .9rem;

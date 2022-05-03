@@ -59,7 +59,7 @@ const DOMController = (() => {
             todoDiv.classList.add("todo-item");
             const leftDiv = document.createElement('div');
             const priorityMarker = document.createElement('span');
-            priorityMarker.classList.add("priority-marker");
+            priorityMarker.classList.add("priority-marker", assignPriorityColors(element.priority));
             //priorityMarker.textContent = "radio_button_unchecked";
             leftDiv.appendChild(priorityMarker);
             const wrapDiv = document.createElement('div');
@@ -80,12 +80,36 @@ const DOMController = (() => {
         projectContainer.appendChild(projectDiv);
         return;
     }
+    //Takes priority of todoItem and returns proper css class string
+    const assignPriorityColors = (priorityVal) => {
+        const defP = "default-priority";
+        const lowP = "low-priority";
+        const medP = "medium-priority";
+        const highP = "high-priority";
+        switch (priorityVal) {
+            case 0:
+                return (defP)
+                break;
+            case 1:
+                return (lowP)
+                break;
+            case 2:
+                return(medP)
+                break;
+            case 3:
+                return(highP)
+                break;
+            default:
+                return(defP)
+                break;
+        }
+    }
     return {
         update
     };
 })();
 
-function listener (){
+function listener() {
     console.log('Button Clicked');
     DOMController.update();
 }
