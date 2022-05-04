@@ -30,8 +30,8 @@ const DOMController = (() => {
     //Modals
     const tempModal = document.querySelector('.modal');
     const modalClose = document.querySelector('.close-button');
+    const uiListName = document.querySelector('.list-name');
     //Add handlers
-    
     const uiAddHandlers = () => {
         //Control bar events
         addProjectBtn.addEventListener('click', listener);
@@ -116,8 +116,8 @@ const DOMController = (() => {
         }
     }
     //Creates Add button below each todo list with a unique id tying it to the proper list
-    const uiCreateAddTodo = (projIndex) => {
-        let id = "add" + projIndex;
+    const uiCreateAddTodo = (listIndex) => {
+        let id = "add" + listIndex;
         const addItem = document.createElement('div');
         addItem.classList.add("add-item");
         const spanAdd = document.createElement('span');
@@ -130,8 +130,11 @@ const DOMController = (() => {
     }
     //Handles modals 
     const uiModalControl  = (event) => {
-        console.log(event.currentTarget.id);//This id will allow us to know which List to add the todo
+        let ref = event.currentTarget.id;
+        ref = ref.replace(/\D/g, '');//regex for dropping all characters that arent numbers
+        console.log(ref);//This id will allow us to know which List to add the todo
         toggleModal();
+        uiListName.textContent = LoL[ref].name;
     }
     const toggleModal = () => {
         tempModal.classList.toggle("show-modal");
