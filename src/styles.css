@@ -236,6 +236,7 @@ button:hover{
     transform: translate(-50%,-50%);
     gap: 1rem;
     border-radius: .5rem;
+    align-items: center;
 }
 .modal-content>:first-child{
     display: flex;
