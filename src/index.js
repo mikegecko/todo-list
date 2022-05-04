@@ -27,13 +27,17 @@ const DOMController = (() => {
     const delProjectBtn = document.querySelector('#delProject');
     const todoToggleBtn = document.querySelector('#viewToggle');
     const delLocalDataBtn = document.querySelector('#delLocalData');
-    
+    //Modals
+    const tempModal = document.querySelector('.modal');
     //Add handlers
-    addProjectBtn.addEventListener('click', listener);
-    editProjectBtn.addEventListener('click', listener);
-    delProjectBtn.addEventListener('click', listener);
-    todoToggleBtn.addEventListener('click', listener);
-    delLocalDataBtn.addEventListener('click', listener);
+    
+    const uiAddHandlers = () => {
+        addProjectBtn.addEventListener('click', listener);
+        editProjectBtn.addEventListener('click', listener);
+        delProjectBtn.addEventListener('click', listener);
+        todoToggleBtn.addEventListener('click', listener);
+        delLocalDataBtn.addEventListener('click', uiModalControl);
+    }
     //This updates the DOM to reflect data stored locally(eventually)
     //Currently loads default project from todo.js
     const update = () => {
@@ -120,10 +124,16 @@ const DOMController = (() => {
         addItem.addEventListener('click', listener);
         return(addItem);
     }
+    //Handles modals 
+    const uiModalControl  = () => {
+        tempModal.classList.add("show-modal");
+    }
     return {
-        update
+        update,
+        uiAddHandlers
     };
 })();
+DOMController.uiAddHandlers();
 
 function listener() {
     console.log('Button Clicked');
