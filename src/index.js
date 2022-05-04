@@ -29,14 +29,18 @@ const DOMController = (() => {
     const delLocalDataBtn = document.querySelector('#delLocalData');
     //Modals
     const tempModal = document.querySelector('.modal');
+    const modalClose = document.querySelector('.close-button');
     //Add handlers
     
     const uiAddHandlers = () => {
+        //Control bar events
         addProjectBtn.addEventListener('click', listener);
         editProjectBtn.addEventListener('click', listener);
         delProjectBtn.addEventListener('click', listener);
         todoToggleBtn.addEventListener('click', listener);
-        delLocalDataBtn.addEventListener('click', uiModalControl);
+        delLocalDataBtn.addEventListener('click', listener);
+        //Modal events
+        modalClose.addEventListener('click', toggleModal);
     }
     //This updates the DOM to reflect data stored locally(eventually)
     //Currently loads default project from todo.js
@@ -44,7 +48,7 @@ const DOMController = (() => {
         removeAllChildNodes(projectContainer);
         removeAllChildNodes(sidebarList);
         LoL.forEach(element => {
-            loadProjects(element, uiCreateAddTodo(element.id));
+            loadProjects(element, uiCreateAddTodo(element.index));
         });
     }
     const loadProjects = (project, uiAddTask) => {
@@ -113,7 +117,7 @@ const DOMController = (() => {
     }
     //Creates Add button below each todo list with a unique id tying it to the proper list
     const uiCreateAddTodo = (projIndex) => {
-        let id = "addTo" + projIndex;
+        let id = "add" + projIndex;
         const addItem = document.createElement('div');
         addItem.classList.add("add-item");
         const spanAdd = document.createElement('span');
@@ -121,12 +125,16 @@ const DOMController = (() => {
         spanAdd.textContent = "add";
         addItem.appendChild(spanAdd);
         addItem.id = id;
-        addItem.addEventListener('click', listener);
+        addItem.addEventListener('click', uiModalControl);
         return(addItem);
     }
     //Handles modals 
-    const uiModalControl  = () => {
-        tempModal.classList.add("show-modal");
+    const uiModalControl  = (event) => {
+        console.log(event.currentTarget.id);//This id will allow us to know which List to add the todo
+        toggleModal();
+    }
+    const toggleModal = () => {
+        tempModal.classList.toggle("show-modal");
     }
     return {
         update,
