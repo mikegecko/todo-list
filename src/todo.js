@@ -35,7 +35,6 @@ import {
 } from "date-fns";
 
 //TODO: Setup storage methods for fetching and setting JSON data in localStorage
-//TODO: Fix due date display format
 //TODO: Order/sort todoList array based on dueDate or priority
 
 //TodoList Constructor

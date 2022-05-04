@@ -10,11 +10,11 @@ import {
     expand todo to view/edit details(todo modal)
     delete todo/project
 */
-//TODO: create 'add' button with unique id's for adding a todoItem to appropriate project/todoList -> will bring up add todo modal
+//TODO: Add ability to change item priority
+//TODO: Add ability to create new lists/projects
+//TODO: Add sidebar functionality
 //TODO: create 'edit' button that shows/hides when hovering over an editable element -> will bring up edit modal
-//TODO: Add priority colors & implement checkboxes [1/2 Done]
 //TODO: Add ability to expand & collapse projects in both project space and sidebar
-//TODO: Create setter/getter functions for todoItems for interaction with DOM modals
 
 //Maybe break this up into separate modules?
 const DOMController = (() => {
