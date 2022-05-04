@@ -31,6 +31,10 @@ const DOMController = (() => {
     const tempModal = document.querySelector('.modal');
     const modalClose = document.querySelector('.close-button');
     const uiListName = document.querySelector('.list-name');
+    const uiNewName = document.querySelector('#newName');
+    const uiNewNote = document.querySelector('#newNotes');
+    const uiNewDueDate = document.querySelector('#newDueDate');
+    const submitNewItem = document.querySelector('#submitNewItem');
     //Add handlers
     const uiAddHandlers = () => {
         //Control bar events
@@ -41,6 +45,8 @@ const DOMController = (() => {
         delLocalDataBtn.addEventListener('click', listener);
         //Modal events
         modalClose.addEventListener('click', toggleModal);
+        submitNewItem.addEventListener('click', submitItem);
+
     }
     //This updates the DOM to reflect data stored locally(eventually)
     //Currently loads default project from todo.js
@@ -121,23 +127,35 @@ const DOMController = (() => {
         const addItem = document.createElement('div');
         addItem.classList.add("add-item");
         const spanAdd = document.createElement('span');
-        spanAdd.classList.add("material-symbols-outlined","md-36");
+        spanAdd.classList.add("material-symbols-outlined", "md-36");
         spanAdd.textContent = "add";
         addItem.appendChild(spanAdd);
         addItem.id = id;
         addItem.addEventListener('click', uiModalControl);
-        return(addItem);
+        return (addItem);
     }
     //Handles modals 
-    const uiModalControl  = (event) => {
+    const uiModalControl = (event) => {
         let ref = event.currentTarget.id;
-        ref = ref.replace(/\D/g, '');//regex for dropping all characters that arent numbers
-        console.log(ref);//This id will allow us to know which List to add the todo
-        toggleModal();
+        ref = ref.replace(/\D/g, ''); //regex for dropping all characters that arent numbers
+        console.log(ref); //This id will allow us to know which List to add the todo
         uiListName.textContent = LoL[ref].name;
+        TodoItemInterface.setListIndex(ref);
+        toggleModal();
     }
     const toggleModal = () => {
         tempModal.classList.toggle("show-modal");
+        clearModalInputs();
+    }
+    const clearModalInputs = () => {
+        uiNewName.value = "";
+        uiNewNote.value = "";
+        uiNewDueDate.value = "";
+    }
+    const submitItem = () => {
+        TodoItemInterface.createItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value);
+        update();
+        toggleModal();
     }
     return {
         update,
@@ -146,10 +164,26 @@ const DOMController = (() => {
 })();
 DOMController.uiAddHandlers();
 
+const TodoItemInterface = (() => {
+    let listIndex = null;
+
+    const setListIndex = (index) => {
+        listIndex = index;
+    }
+    const createItem = (name, notes, dueDate, priority) => {
+        const list = LoL[listIndex];
+        list.addTodoItem(name, notes, priority, dueDate);
+    }
+    return {
+        setListIndex,
+        createItem
+    }
+})();
+
 function listener() {
     console.log('Button Clicked');
     DOMController.update();
-    
+
 }
 
 function removeAllChildNodes(parent) {
