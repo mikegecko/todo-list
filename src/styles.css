@@ -167,6 +167,7 @@ button:hover{
     height: 50px;
     padding-left: 1rem;
     color: #797979;
+    justify-content: center;
 }
 .add-item:hover{
     color: black;
@@ -220,6 +221,7 @@ button:hover{
     background-color: rgba(0, 0, 0, 0.5);;
     visibility: hidden;
     opacity: 0;
+    z-index: 5;
 }
 .modal-content{
     position: absolute;
