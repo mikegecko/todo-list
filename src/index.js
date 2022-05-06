@@ -3,20 +3,16 @@ import {
     TodoList,
     LoL
 } from "./todo";
-/*
-    Functions:
-    view all projects/todos
-    create todo/project
-    expand todo to view/edit details(todo modal)
-    delete todo/project
-*/
-//TODO: Add ability to change item priority
-//TODO: Add ability to create new lists/projects
-//TODO: Add sidebar functionality
-//TODO: create 'edit' button that shows/hides when hovering over an editable element -> will bring up edit modal
-//TODO: Add ability to expand & collapse projects in both project space and sidebar
 
-//Maybe break this up into separate modules?
+//TODO: Add ability to change item priority
+//TODO: Add sidebar functionality
+//TODO: Figure out how to edit existing todoItems and lists
+//TODO: Add ability to expand & collapse projects in both project space and sidebar
+//TODO: Add ability to select priority when creating new todoItem
+//TODO: Add ability to order projects using sidebar
+//TODO: Add ability to complete todoItems
+
+//This should probably be broken up into separate modules
 const DOMController = (() => {
     //Document Selectors
     const sidebarList = document.querySelector('.project-list');
@@ -143,20 +139,19 @@ const DOMController = (() => {
     }
     //Handles modals 
     const uiModalControl = (event) => {
-        let ref = event.currentTarget.id;
+        let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
         ref = ref.replace(/\D/g, ''); //regex for dropping all characters that arent numbers
-        console.log(ref); //This id will allow us to know which List to add the todo
         uiListName.textContent = LoL[ref].name;
         TodoItemInterface.setListIndex(ref);
         toggleItemModal(event);
     }
     const toggleItemModal = (event) => {
-            todoItemModal.classList.toggle("show-modal");
-            clearModalInputs();
+        todoItemModal.classList.toggle("show-modal");
+        clearModalInputs();
     }
-    const toggleListModal = (event) =>{
+    const toggleListModal = (event) => {
         listModal.classList.toggle("show-modal");
-            clearModalInputs();
+        clearModalInputs();
     }
     const clearModalInputs = () => {
         //Todo modal
@@ -167,21 +162,19 @@ const DOMController = (() => {
         listNewName.value = "";
     }
     const submitItem = () => {
-        if(uiNewName.value == ""){
+        if (uiNewName.value == "") {
             alert("Please enter a name.");
-        }
-        else{
+        } else {
             TodoItemInterface.createItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value);
             update();
             toggleItemModal();
         }
-        
+
     }
     const submitList = () => {
-        if(listNewName.value == ""){
+        if (listNewName.value == "") {
             alert("Please enter a name.")
-        }
-        else{
+        } else {
             TodoItemInterface.createList(listNewName.value);
             update();
             toggleListModal();
