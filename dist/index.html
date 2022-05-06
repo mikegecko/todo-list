@@ -79,12 +79,12 @@
                 </div>
             </div>
         </div>
-        <div class="modal">
+        <div class="modal-todo">
             <div class="modal-content">
                 <div>
                     <!-- Change the below div to generate based on wether or not it is creating a new item or editing an existing item -->
                     <div>New item for <span class="list-name"></span></div>
-                    <div class="close-button">&times;</div>
+                    <div class="close-button" id="T">&times;</div>
                 </div>
                 <div class="newtodoform">
                     <p>Title : <input type="text" name="new-name" id="newName"></p>
@@ -92,6 +92,19 @@
                     <p>Due Date : <input type="date" name="new-duedate" id="newDueDate"></p>
                 </div>
                 <button id="submitNewItem">Submit</button>
+            </div>
+        </div>
+        <div class="modal-list">
+            <div class="modal-content">
+                <div>
+                    <!-- Change the below div to generate based on wether or not it is creating a new item or editing an existing item -->
+                    <div>Create a new list or project</div>
+                    <div class="close-button" id="L">&times;</div>
+                </div>
+                <div class="newlistform">
+                    <p>Name : <input type="text" name="new-list" id="newList"></p>
+                </div>
+                <button id="submitNewList">Submit</button>
             </div>
         </div>
     </div>
