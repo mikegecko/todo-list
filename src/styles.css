@@ -212,7 +212,7 @@ button:hover{
     padding-top: 4px;
     padding-left: 1rem;
 }
-.modal{
+.modal-todo,.modal-list{
     position: fixed;
     left: 0;
     top: 0;
