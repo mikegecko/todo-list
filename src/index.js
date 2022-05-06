@@ -30,7 +30,7 @@ const DOMController = (() => {
     //Todo Modal
     const todoItemModal = document.querySelector('.modal-todo');
     const modalClose = document.querySelector('#T');
-    const modalListClose = document.querySelectorgi('#L');
+    const modalListClose = document.querySelector('#L');
     const uiListName = document.querySelector('.list-name');
     const uiNewName = document.querySelector('#newName');
     const uiNewNote = document.querySelector('#newNotes');
@@ -167,14 +167,25 @@ const DOMController = (() => {
         listNewName.value = "";
     }
     const submitItem = () => {
-        TodoItemInterface.createItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value);
-        update();
-        toggleItemModal();
+        if(uiNewName.value == ""){
+            alert("Please enter a name.");
+        }
+        else{
+            TodoItemInterface.createItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value);
+            update();
+            toggleItemModal();
+        }
+        
     }
     const submitList = () => {
-        TodoItemInterface.createList(listNewName.value);
-        update();
-        toggleListModal();
+        if(listNewName.value == ""){
+            alert("Please enter a name.")
+        }
+        else{
+            TodoItemInterface.createList(listNewName.value);
+            update();
+            toggleListModal();
+        }
     }
     return {
         update,
