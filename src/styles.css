@@ -193,7 +193,9 @@ button:hover{
     border-radius: 50%;
     border: solid transparent 2px;
 }
-
+.priority-selected{
+    border: solid black 2px;
+}
 
 .priority-marker:hover{
     border: solid black 2px;
@@ -209,6 +211,10 @@ button:hover{
 }
 .low-priority{
     background-color: orange;
+}
+.priority-modal{
+    display: flex;
+    gap: 2rem;
 }
 .notes {
     font-size: .9rem;
