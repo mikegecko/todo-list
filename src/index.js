@@ -11,9 +11,9 @@ import {
 //      Pressing edit tooltip will bring up an edit modal to edit Name/notes/dueDate/Priority
 //      Hovering over right side(due date) will bring up a tooltip with a date selector
 //TODO: Add ability to expand & collapse projects in both project space and sidebar
-//TODO: Add ability to select priority when creating new todoItem
 //TODO: Add ability to order projects using sidebar
 //TODO: Add ability to complete todoItems
+//TODO: Add ability to sort items based on either dueDate or priority (ascending and descending)
 
 //This should probably be broken up into separate modules
 const DOMController = (() => {
