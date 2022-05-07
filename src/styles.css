@@ -22,15 +22,19 @@
 .material-icons.md-48 {
     font-size: 48px;
 }
-.material-symbols-outlined.md-18{
+
+.material-symbols-outlined.md-18 {
     font-size: 18px;
 }
-.material-symbols-outlined.md-30{
+
+.material-symbols-outlined.md-30 {
     font-size: 30px;
 }
-.material-symbols-outlined.md-36{
+
+.material-symbols-outlined.md-36 {
     font-size: 36px;
 }
+
 .material-symbols-outlined.md-48 {
     font-size: 48px
 }
@@ -74,9 +78,11 @@ button {
     color: rgba(0, 0, 0, 0.54);
     cursor: pointer;
 }
-button:hover{
+
+button:hover {
     color: black;
 }
+
 .tooltip {
     position: relative;
     display: inline-block;
@@ -157,11 +163,13 @@ button:hover{
     margin: 1rem;
     height: 50px;
 }
-.todo-item:hover{
+
+.todo-item:hover {
     border-bottom: 2px solid black;
     cursor: pointer;
 }
-.add-item{
+
+.add-item {
     font-size: 18px;
     border-bottom: 2px solid rgb(236, 236, 236);
     display: flex;
@@ -173,19 +181,21 @@ button:hover{
     color: #797979;
     justify-content: center;
 }
-.add-item:hover{
+
+.add-item:hover {
     color: black;
     cursor: pointer;
     border-bottom: 2px solid black;
 }
-.todo-item>div{
+
+.todo-item>div {
     display: flex;
     flex-direction: row;
     gap: 1rem;
-    
+
 }
 
-.priority-marker{
+.priority-marker {
     cursor: pointer;
     color: black;
     height: 14px;
@@ -193,46 +203,57 @@ button:hover{
     border-radius: 50%;
     border: solid transparent 2px;
 }
-.priority-selected{
+
+.priority-selected {
     border: solid black 2px;
 }
 
-.priority-marker:hover{
+.priority-marker:hover {
     border: solid black 2px;
 }
-.default-priority{
+
+.default-priority {
     background-color: #797979;
 }
-.high-priority{
+
+.high-priority {
     background-color: red;
 }
-.medium-priority{
+
+.medium-priority {
     background-color: orangered;
 }
-.low-priority{
+
+.low-priority {
     background-color: orange;
 }
-.priority-modal{
+
+.priority-modal {
     display: flex;
     gap: 2rem;
 }
+
 .notes {
     font-size: .9rem;
     padding-top: 4px;
     padding-left: 1rem;
 }
-.modal-todo,.modal-list{
+
+.modal-todo,
+.modal-list {
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);;
+    background-color: rgba(0, 0, 0, 0.5);
+    ;
     visibility: hidden;
     opacity: 0;
     z-index: 5;
 }
-.modal-content{
+
+.modal-content {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -242,12 +263,13 @@ button:hover{
     padding: 1rem;
     width: 300px;
     height: 150;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     gap: 1rem;
     border-radius: .5rem;
     align-items: center;
 }
-.modal-content>:first-child{
+
+.modal-content>:first-child {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -257,12 +279,13 @@ button:hover{
     padding: 0;
     margin: 0;
 }
-.show-modal{
+
+.show-modal {
     opacity: 1;
     visibility: visible;
 }
 
-.close-button{
+.close-button {
     color: #797979;
     align-self: flex-end;
     cursor: pointer;
@@ -271,10 +294,12 @@ button:hover{
     left: 3rem;
     bottom: 1.5rem;
 }
-.close-button:hover{
+
+.close-button:hover {
     color: black;
 }
-input{
+
+input {
     border-radius: .4rem;
     border: solid 1px #797979;
     padding-left: .5rem;

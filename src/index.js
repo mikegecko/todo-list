@@ -168,7 +168,7 @@ const DOMController = (() => {
                 break;
         }
     }
-    const uiUnselectAllPriority = () =>{
+    const uiUnselectAllPriority = () => {
         uiDefPriority.classList.remove("priority-selected");
         uiLowPriority.classList.remove("priority-selected");
         uiMedPriority.classList.remove("priority-selected");
@@ -178,7 +178,7 @@ const DOMController = (() => {
         selectedPriority = priorityVal;
     }
     const getSelectedPriority = () => {
-        return(selectedPriority);
+        return (selectedPriority);
     }
     //Creates Add button below each todo list with a unique id tying it to the proper list
     const uiCreateAddTodo = (listIndex) => {
@@ -246,8 +246,8 @@ DOMController.uiAddHandlers();
 
 const TodoItemInterface = (() => {
     let listIndex = null;
-    const completeItem = (listIndex, itemIndex) =>{
-        
+    const completeItem = (listIndex, itemIndex) => {
+
     }
     const setListIndex = (index) => {
         listIndex = index;
