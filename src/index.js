@@ -7,6 +7,9 @@ import {
 //TODO: Add ability to change item priority
 //TODO: Add sidebar functionality
 //TODO: Figure out how to edit existing todoItems and lists
+//      Hovering over left side of a todoItem will bring up a tooltip with edit and delete buttons
+//      Pressing edit tooltip will bring up an edit modal to edit Name/notes/dueDate/Priority
+//      Hovering over right side(due date) will bring up a tooltip with a date selector
 //TODO: Add ability to expand & collapse projects in both project space and sidebar
 //TODO: Add ability to select priority when creating new todoItem
 //TODO: Add ability to order projects using sidebar
@@ -14,6 +17,8 @@ import {
 
 //This should probably be broken up into separate modules
 const DOMController = (() => {
+    //Variables
+    let selectedPriority = 0;
     //Document Selectors
     const sidebarList = document.querySelector('.project-list');
     const projectContainer = document.querySelector('.project-container');
@@ -32,6 +37,10 @@ const DOMController = (() => {
     const uiNewNote = document.querySelector('#newNotes');
     const uiNewDueDate = document.querySelector('#newDueDate');
     const submitNewItem = document.querySelector('#submitNewItem');
+    const uiDefPriority = document.querySelector('#dp');
+    const uiLowPriority = document.querySelector('#lp');
+    const uiMedPriority = document.querySelector('#mp');
+    const uiHighPriority = document.querySelector('#hp');
     //List Modal
     const listModal = document.querySelector('.modal-list');
     const submiteNewList = document.querySelector('#submitNewList');
@@ -50,6 +59,11 @@ const DOMController = (() => {
         modalListClose.addEventListener('click', toggleListModal);
         submitNewItem.addEventListener('click', submitItem);
         submiteNewList.addEventListener('click', submitList);
+        //Modal Priority selectors
+        uiDefPriority.addEventListener('click', uiPrioritySelect);
+        uiLowPriority.addEventListener('click', uiPrioritySelect);
+        uiMedPriority.addEventListener('click', uiPrioritySelect);
+        uiHighPriority.addEventListener('click', uiPrioritySelect);
     }
     //This updates the DOM to reflect data stored locally(eventually)
     //Currently loads default project from todo.js
@@ -124,6 +138,48 @@ const DOMController = (() => {
                 break;
         }
     }
+    //Handles selection of priority in todoItem modal
+    const uiPrioritySelect = (event) => {
+        switch (event.currentTarget.id) {
+            case 'dp':
+                uiUnselectAllPriority();
+                uiDefPriority.classList.add("priority-selected");
+                setSelectedPriority(0);
+                break;
+            case 'lp':
+                uiUnselectAllPriority();
+                uiLowPriority.classList.add("priority-selected");
+                setSelectedPriority(1);
+                break;
+            case 'mp':
+                uiUnselectAllPriority();
+                uiMedPriority.classList.add("priority-selected");
+                setSelectedPriority(2);
+                break;
+            case 'hp':
+                uiUnselectAllPriority();
+                uiHighPriority.classList.add("priority-selected");
+                setSelectedPriority(3);
+                break;
+            default:
+                uiUnselectAllPriority();
+                uiDefPriority.classList.add("priority-selected");
+                setSelectedPriority(0);
+                break;
+        }
+    }
+    const uiUnselectAllPriority = () =>{
+        uiDefPriority.classList.remove("priority-selected");
+        uiLowPriority.classList.remove("priority-selected");
+        uiMedPriority.classList.remove("priority-selected");
+        uiHighPriority.classList.remove("priority-selected");
+    }
+    const setSelectedPriority = (priorityVal) => {
+        selectedPriority = priorityVal;
+    }
+    const getSelectedPriority = () => {
+        return(selectedPriority);
+    }
     //Creates Add button below each todo list with a unique id tying it to the proper list
     const uiCreateAddTodo = (listIndex) => {
         let id = "add" + listIndex;
@@ -165,7 +221,8 @@ const DOMController = (() => {
         if (uiNewName.value == "") {
             alert("Please enter a name.");
         } else {
-            TodoItemInterface.createItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value);
+            const newPriority = getSelectedPriority();
+            TodoItemInterface.createItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value, newPriority);
             update();
             toggleItemModal();
         }
@@ -189,7 +246,9 @@ DOMController.uiAddHandlers();
 
 const TodoItemInterface = (() => {
     let listIndex = null;
-
+    const completeItem = (listIndex, itemIndex) =>{
+        
+    }
     const setListIndex = (index) => {
         listIndex = index;
     }
@@ -205,7 +264,8 @@ const TodoItemInterface = (() => {
     return {
         setListIndex,
         createItem,
-        createList
+        createList,
+        completeItem
     }
 })();
 
