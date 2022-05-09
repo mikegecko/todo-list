@@ -15,6 +15,9 @@ import {
 //TODO: Add ability to complete todoItems
 //TODO: Add ability to sort items based on either dueDate or priority (ascending and descending)
 
+//Small Fixes:
+//TODO: Make priority reset to default for new todoItem when modal closes
+
 //This should probably be broken up into separate modules
 const DOMController = (() => {
     //Variables
@@ -88,8 +91,13 @@ const DOMController = (() => {
         projectContent.classList.add("project-content");
 
         project.todoList.forEach(element => {
+            if(element.isChecked){
+                return;
+            }
             const todoDiv = document.createElement('div');
             todoDiv.classList.add("todo-item");
+            todoDiv.id = LoL.indexOf(project).toString() + "-" + project.todoList.indexOf(element).toString();
+            todoDiv.addEventListener('click', todoItemHandler);
             const leftDiv = document.createElement('div');
             const priorityMarker = document.createElement('span');
             priorityMarker.classList.add("priority-marker", uiAssignPriorityColors(element.priority));
@@ -237,6 +245,13 @@ const DOMController = (() => {
             toggleListModal();
         }
     }
+    const todoItemHandler = (event) =>{
+        const arr = event.currentTarget.id.split('-');
+        const listIndex = arr[0];
+        const itemIndex = arr[1];
+        TodoItemInterface.completeItem(listIndex,itemIndex);
+        update();
+    }
     return {
         update,
         uiAddHandlers
@@ -247,7 +262,7 @@ DOMController.uiAddHandlers();
 const TodoItemInterface = (() => {
     let listIndex = null;
     const completeItem = (listIndex, itemIndex) => {
-
+        LoL[listIndex].todoList[itemIndex].isChecked = true;
     }
     const setListIndex = (index) => {
         listIndex = index;

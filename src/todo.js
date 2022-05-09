@@ -31,7 +31,8 @@ import {
     startOfTomorrow,
     format,
     parse,
-    parseISO
+    parseISO,
+    formatISO
 } from "date-fns";
 
 //TODO: Setup storage methods for fetching and setting JSON data in localStorage
@@ -70,7 +71,7 @@ function TodoItem(name, id, dueDate, notes, priority, isChecked) {
 const LoL = []; //List of Lists
 const defaultList = new TodoList("Default Project", LoL.length);
 LoL.push(defaultList);
-defaultList.addTodoItem("Clean Room", "Use vacuum", 1);
+defaultList.addTodoItem("Clean Room", "Use vacuum", 1, formatISO(startOfToday()), true);
 defaultList.addTodoItem("Play games", "Minecraft", 2);
 defaultList.addTodoItem("Play games", "No Man's Sky", 3);
 defaultList.addTodoItem("Play games", "Apex Legends", 4);
