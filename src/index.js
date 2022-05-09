@@ -12,11 +12,11 @@ import {
 //      Hovering over right side(due date) will bring up a tooltip with a date selector
 //TODO: Add ability to expand & collapse projects in both project space and sidebar
 //TODO: Add ability to order projects using sidebar
-//TODO: Add ability to complete todoItems
 //TODO: Add ability to sort items based on either dueDate or priority (ascending and descending)
 
 //Small Fixes:
 //TODO: Make priority reset to default for new todoItem when modal closes
+//TODO: Hide empty projects/lists when all items are complete
 
 //This should probably be broken up into separate modules
 const DOMController = (() => {
