@@ -83,7 +83,7 @@ button:hover {
     color: black;
 }
 
-.tooltip {
+.tooltip,.tooltip-right {
     position: relative;
     display: inline-block;
 }
@@ -120,7 +120,23 @@ button:hover {
     border-style: solid;
     border-color: transparent transparent black transparent;
 }
-
+.tooltip-right:hover .tooltiptext{
+    visibility: visible;
+}
+.tooltip-right .tooltiptext{
+    visibility: hidden;
+    width: 120px;
+    color: #797979;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    top: -5px;
+    left: 100%;
+    font-size: 14px;
+}
 .content {
     display: flex;
     flex: 1;
@@ -139,7 +155,12 @@ button:hover {
     margin: 1rem 1rem 0 1rem;
     border-bottom: 2px solid #797979;
 }
-
+li{
+  cursor: pointer;  
+}
+li:hover{
+    text-decoration: underline;
+}
 .project-list {
     list-style-type: none;
 }
