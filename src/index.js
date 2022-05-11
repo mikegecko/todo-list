@@ -395,7 +395,9 @@ const TodoItemInterface = (() => {
         list.todoList[itemIndex].name = name;
         list.todoList[itemIndex].notes = notes;
         list.todoList[itemIndex].priority = priority;
-        list.todoList[itemIndex].dueDate = format(parseISO(dueDate), 'PPPP');
+        if(dueDate){
+            list.todoList[itemIndex].dueDate = format(parseISO(dueDate), 'PPPP');
+        }
     }
     const deleteItem = () => {
 
