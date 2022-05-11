@@ -83,7 +83,8 @@ button:hover {
     color: black;
 }
 
-.tooltip,.tooltip-right {
+.tooltip,
+.tooltip-right {
     position: relative;
     display: inline-block;
 }
@@ -120,10 +121,12 @@ button:hover {
     border-style: solid;
     border-color: transparent transparent black transparent;
 }
-.tooltip-right:hover .tooltiptext{
+
+.tooltip-right:hover .tooltiptext {
     visibility: visible;
 }
-.tooltip-right .tooltiptext{
+
+.tooltip-right .tooltiptext {
     visibility: hidden;
     width: 120px;
     color: #797979;
@@ -137,6 +140,7 @@ button:hover {
     left: 100%;
     font-size: 14px;
 }
+
 .content {
     display: flex;
     flex: 1;
@@ -155,12 +159,15 @@ button:hover {
     margin: 1rem 1rem 0 1rem;
     border-bottom: 2px solid #797979;
 }
-li{
-  cursor: pointer;  
+
+li {
+    cursor: pointer;
 }
-li:hover{
+
+li:hover {
     text-decoration: underline;
 }
+
 .project-list {
     list-style-type: none;
 }
