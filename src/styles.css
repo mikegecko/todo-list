@@ -321,9 +321,9 @@ li:hover {
     align-self: flex-end;
     cursor: pointer;
     font-size: 32px;
-    position: relative;
-    left: 3rem;
-    bottom: 1.5rem;
+    position: absolute;
+    right: 8px;
+    top: -4px;
 }
 
 .close-button:hover {

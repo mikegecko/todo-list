@@ -385,6 +385,12 @@ const TodoItemInterface = (() => {
         const list = LoL[listIndex];
         list.addTodoItem(name, notes, priority, dueDate);
     }
+    const editItem = () => {
+
+    }
+    const deleteItem = () => {
+
+    }
     const createList = (name) => {
         const index = LoL.length;
         const newList = new TodoList(name, index);
@@ -394,7 +400,9 @@ const TodoItemInterface = (() => {
         setListIndex,
         createItem,
         createList,
-        completeItem
+        completeItem,
+        editItem,
+        deleteItem
     }
 })();
 
