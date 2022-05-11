@@ -1,4 +1,8 @@
 import {
+    format,
+    parseISO
+} from "date-fns";
+import {
     it
 } from "date-fns/locale";
 import {
@@ -20,6 +24,7 @@ import {
 
 //Small Fixes:
 //TODO: Hide empty projects/lists when all items are complete
+//TODO: Fix date not displaying in edit modal
 
 //This should probably be broken up into separate modules
 const DOMController = (() => {
@@ -159,10 +164,9 @@ const DOMController = (() => {
     //Handles selection of priority in todoItem modal
     const uiPrioritySelect = (event) => {
         let eventId = event;
-        if(typeof(event) == "object"){
+        if (typeof (event) == "object") {
             eventId = event.currentTarget.id;
-        }
-        else{
+        } else {
             switch (eventId) {
                 case 0:
                     eventId = 'dp';
@@ -276,7 +280,7 @@ const DOMController = (() => {
         const list = LoL[listIndex];
         uiNewName.value = list.todoList[itemIndex].name;
         uiNewNote.value = list.todoList[itemIndex].notes;
-        uiNewDueDate.value = list.todoList[itemIndex].dueDate;
+        uiNewDueDate.value = parseISO(list.todoList[itemIndex].dueDate); //Fix this
         uiPrioritySelect(list.todoList[itemIndex].priority);
     }
     const clearModalInputs = () => {
@@ -288,8 +292,7 @@ const DOMController = (() => {
             //List modal
             listNewName.value = "";
             uiUnselectAllPriority();
-        }
-        else{
+        } else {
             return;
         }
     }
@@ -297,17 +300,15 @@ const DOMController = (() => {
         if (uiNewName.value == "") {
             alert("Please enter a name.");
         } else {
+            const newPriority = getSelectedPriority();
             if (getEditFlag()) {
-
+                TodoItemInterface.editItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value, newPriority);
                 setEditFlag(false);
-                toggleItemModal();
             } else {
-                const newPriority = getSelectedPriority();
                 TodoItemInterface.createItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value, newPriority);
-                update();
-                toggleItemModal();
             }
-
+            update();
+            toggleItemModal();
         }
 
     }
@@ -342,8 +343,8 @@ const DOMController = (() => {
         ref = ref.replace(/\D/g, '');
         const arr = ref.split(''); //First item is listIndex second is todoList index
         uiCreateListName(arr[0], 1);
-        TodoItemInterface.setListIndex(arr[0]); //?? is this needed
-        console.log(arr);
+        TodoItemInterface.setListIndex(arr[0]); //This is important for selecting the right list
+        TodoItemInterface.setItemIndex(arr[1]);
         loadEditModal(arr[0], arr[1]);
         toggleItemModal();
     }
@@ -375,18 +376,26 @@ DOMController.uiAddHandlers();
 
 const TodoItemInterface = (() => {
     let listIndex = null;
+    let itemIndex = null;
     const completeItem = (listIndex, itemIndex) => {
         LoL[listIndex].todoList[itemIndex].isChecked = true;
     }
     const setListIndex = (index) => {
         listIndex = index;
     }
+    const setItemIndex = (index) => {
+        itemIndex = index;
+    }
     const createItem = (name, notes, dueDate, priority) => {
         const list = LoL[listIndex];
         list.addTodoItem(name, notes, priority, dueDate);
     }
-    const editItem = () => {
-
+    const editItem = (name, notes, dueDate, priority) => {
+        const list = LoL[listIndex];
+        list.todoList[itemIndex].name = name;
+        list.todoList[itemIndex].notes = notes;
+        list.todoList[itemIndex].priority = priority;
+        list.todoList[itemIndex].dueDate = format(parseISO(dueDate), 'PPPP');
     }
     const deleteItem = () => {
 
@@ -398,6 +407,7 @@ const TodoItemInterface = (() => {
     }
     return {
         setListIndex,
+        setItemIndex,
         createItem,
         createList,
         completeItem,
