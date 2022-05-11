@@ -75,8 +75,6 @@ defaultList.addTodoItem("Clean Room", "Use vacuum", 1);
 defaultList.addTodoItem("Play games", "Minecraft", 2);
 defaultList.addTodoItem("Play games", "No Man's Sky", 3);
 defaultList.addTodoItem("Play games", "Apex Legends", 4);
-console.table(defaultList.todoList);
-
 
 export {
     TodoList,

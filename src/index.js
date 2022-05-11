@@ -86,6 +86,7 @@ const DOMController = (() => {
         removeAllChildNodes(sidebarList);
         LoL.forEach(element => {
             loadProjects(element, uiCreateAddTodo(element.index));
+            console.table(element);
         });
     }
     const loadProjects = (project, uiAddTask, uiToolTip) => {
