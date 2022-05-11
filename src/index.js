@@ -1,4 +1,7 @@
 import {
+    it
+} from "date-fns/locale";
+import {
     TodoItem,
     TodoList,
     LoL
@@ -77,7 +80,7 @@ const DOMController = (() => {
             loadProjects(element, uiCreateAddTodo(element.index));
         });
     }
-    const loadProjects = (project, uiAddTask) => {
+    const loadProjects = (project, uiAddTask, uiToolTip) => {
         //Loads projects into sidebar
         const projectSidebar = document.createElement('li');
         projectSidebar.textContent = project.name;
@@ -91,12 +94,15 @@ const DOMController = (() => {
         projectContent.classList.add("project-content");
 
         project.todoList.forEach(element => {
-            if(element.isChecked){
+            let projIndex = LoL.indexOf(project);
+            let itemIndex = project.todoList.indexOf(element);
+            let identifier = LoL.indexOf(project).toString() + "-" + project.todoList.indexOf(element).toString();
+            if (element.isChecked) {
                 return;
             }
             const todoDiv = document.createElement('div');
             todoDiv.classList.add("todo-item");
-            todoDiv.id = LoL.indexOf(project).toString() + "-" + project.todoList.indexOf(element).toString();
+            todoDiv.id = identifier;
             todoDiv.addEventListener('click', todoItemHandler);
             const leftDiv = document.createElement('div');
             const priorityMarker = document.createElement('span');
@@ -105,12 +111,14 @@ const DOMController = (() => {
             leftDiv.appendChild(priorityMarker);
             const wrapDiv = document.createElement('div');
             wrapDiv.textContent = element.name;
+            wrapDiv.classList.add("tooltip-right");
             const notesDiv = document.createElement('div');
             notesDiv.classList.add("notes");
             notesDiv.textContent = element.notes;
             const dueDateDiv = document.createElement('div');
             dueDateDiv.textContent = element.dueDate;
             wrapDiv.appendChild(notesDiv);
+            wrapDiv.appendChild(uiCreateToolTip(projIndex, itemIndex));
             leftDiv.appendChild(wrapDiv)
             todoDiv.appendChild(leftDiv);
             todoDiv.appendChild(dueDateDiv);
@@ -201,6 +209,28 @@ const DOMController = (() => {
         addItem.addEventListener('click', uiModalControl);
         return (addItem);
     }
+    //Creates edit and delete tooltip for todoItems
+    const uiCreateToolTip = (projIndex, itemIndex) => {
+        const tooltipSpan = document.createElement('span');
+        tooltipSpan.classList.add("tooltiptext");
+        const editButton = document.createElement('button');
+        const delButton = document.createElement('button');
+        const editSpan = document.createElement('span');
+        const delSpan = document.createElement('span');
+        editSpan.textContent = "edit";
+        delSpan.textContent = "delete";
+        editSpan.classList.add("material-symbols-outlined");
+        delSpan.classList.add("material-symbols-outlined");
+        editButton.id = 'E' + projIndex.toString() + itemIndex.toString();
+        delButton.id = 'D' + projIndex.toString() + itemIndex.toString();
+        editButton.addEventListener('click', listener);
+        delButton.addEventListener('click', listener);
+        editButton.appendChild(editSpan);
+        delButton.appendChild(delSpan);
+        tooltipSpan.appendChild(editButton);
+        tooltipSpan.appendChild(delButton);
+        return (tooltipSpan);
+    }
     //Handles modals 
     const uiModalControl = (event) => {
         let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
@@ -245,11 +275,11 @@ const DOMController = (() => {
             toggleListModal();
         }
     }
-    const todoItemHandler = (event) =>{
+    const todoItemHandler = (event) => {
         const arr = event.currentTarget.id.split('-');
         const listIndex = arr[0];
         const itemIndex = arr[1];
-        TodoItemInterface.completeItem(listIndex,itemIndex);
+        TodoItemInterface.completeItem(listIndex, itemIndex);
         update();
     }
     return {
