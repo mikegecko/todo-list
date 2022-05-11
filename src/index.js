@@ -16,6 +16,7 @@ import {
 //TODO: Add ability to expand & collapse projects in both project space and sidebar
 //TODO: Add ability to order projects using sidebar
 //TODO: Add ability to sort items based on either dueDate or priority (ascending and descending)
+//TODO: Generate modals dynamically
 
 //Small Fixes:
 //TODO: Hide empty projects/lists when all items are complete
@@ -24,6 +25,7 @@ import {
 const DOMController = (() => {
     //Variables
     let selectedPriority = 0;
+    let editFlag = false;
     //Document Selectors
     const sidebarList = document.querySelector('.project-list');
     const projectContainer = document.querySelector('.project-container');
@@ -35,6 +37,7 @@ const DOMController = (() => {
     const delLocalDataBtn = document.querySelector('#delLocalData');
     //Todo Modal
     const todoItemModal = document.querySelector('.modal-todo');
+    const modalTitle = document.querySelector('.modal-title');
     const modalClose = document.querySelector('#T');
     const modalListClose = document.querySelector('#L');
     const uiListName = document.querySelector('.list-name');
@@ -155,7 +158,30 @@ const DOMController = (() => {
     }
     //Handles selection of priority in todoItem modal
     const uiPrioritySelect = (event) => {
-        switch (event.currentTarget.id) {
+        let eventId = event;
+        if(typeof(event) == "object"){
+            eventId = event.currentTarget.id;
+        }
+        else{
+            switch (eventId) {
+                case 0:
+                    eventId = 'dp';
+                    break;
+                case 1:
+                    eventId = 'lp'
+                    break;
+                case 2:
+                    eventId = 'mp'
+                    break;
+                case 3:
+                    eventId = 'hp'
+                    break;
+                default:
+                    eventId = 'dp'
+                    break;
+            }
+        }
+        switch (eventId) {
             case 'dp':
                 uiUnselectAllPriority();
                 uiDefPriority.classList.add("priority-selected");
@@ -230,39 +256,58 @@ const DOMController = (() => {
         tooltipSpan.appendChild(delButton);
         return (tooltipSpan);
     }
-    //Handles modals 
+    //Handles modals (could use refactoring)
     const uiModalControl = (event) => {
         let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
         ref = ref.replace(/\D/g, ''); //regex for dropping all characters that arent numbers
-        uiListName.textContent = LoL[ref].name;
+        uiCreateListName(ref);
         TodoItemInterface.setListIndex(ref);
-        toggleItemModal(event);
+        toggleItemModal();
     }
-    const toggleItemModal = (event) => {
+    const toggleItemModal = () => {
         todoItemModal.classList.toggle("show-modal");
         clearModalInputs();
     }
-    const toggleListModal = (event) => {
+    const toggleListModal = () => {
         listModal.classList.toggle("show-modal");
         clearModalInputs();
     }
+    const loadEditModal = (listIndex, itemIndex) => {
+        const list = LoL[listIndex];
+        uiNewName.value = list.todoList[itemIndex].name;
+        uiNewNote.value = list.todoList[itemIndex].notes;
+        uiNewDueDate.value = list.todoList[itemIndex].dueDate;
+        uiPrioritySelect(list.todoList[itemIndex].priority);
+    }
     const clearModalInputs = () => {
-        //Todo modal
-        uiNewName.value = "";
-        uiNewNote.value = "";
-        uiNewDueDate.value = "";
-        //List modal
-        listNewName.value = "";
-        uiUnselectAllPriority();
+        if (!getEditFlag()) {
+            //Todo modal
+            uiNewName.value = "";
+            uiNewNote.value = "";
+            uiNewDueDate.value = "";
+            //List modal
+            listNewName.value = "";
+            uiUnselectAllPriority();
+        }
+        else{
+            return;
+        }
     }
     const submitItem = () => {
         if (uiNewName.value == "") {
             alert("Please enter a name.");
         } else {
-            const newPriority = getSelectedPriority();
-            TodoItemInterface.createItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value, newPriority);
-            update();
-            toggleItemModal();
+            if (getEditFlag()) {
+
+                setEditFlag(false);
+                toggleItemModal();
+            } else {
+                const newPriority = getSelectedPriority();
+                TodoItemInterface.createItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value, newPriority);
+                update();
+                toggleItemModal();
+            }
+
         }
 
     }
@@ -275,6 +320,12 @@ const DOMController = (() => {
             toggleListModal();
         }
     }
+    const setEditFlag = (bool) => {
+        editFlag = bool;
+    }
+    const getEditFlag = () => {
+        return (editFlag)
+    }
     //Handles completion event for todoItems
     const todoItemHandler = (event) => {
         const arr = event.currentTarget.id.split('-');
@@ -286,14 +337,34 @@ const DOMController = (() => {
     //Handles events from tooltips on todoItems
     const tooltipEditHandler = (event) => {
         event.stopPropagation();
+        setEditFlag(true);
         let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
         ref = ref.replace(/\D/g, '');
-        console.log(ref);
+        const arr = ref.split(''); //First item is listIndex second is todoList index
+        uiCreateListName(arr[0], 1);
+        TodoItemInterface.setListIndex(arr[0]); //?? is this needed
+        console.log(arr);
+        loadEditModal(arr[0], arr[1]);
+        toggleItemModal();
     }
     const tooltipDeleteHandler = (event) => {
         event.stopPropagation();
         let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
         ref = ref.replace(/\D/g, '');
+        const arr = ref.split("");
+    }
+    //Generates modal title based on editing or adding todoItem
+    const uiCreateListName = (listIndex, selector) => {
+        const listName = document.createElement('span');
+        listName.classList.add("list-name");
+        listName.textContent = LoL[listIndex].name;
+        if (selector == 1) {
+            modalTitle.textContent = "Editing item in ";
+            modalTitle.appendChild(listName);
+        } else {
+            modalTitle.textContent = "New item for ";
+            modalTitle.appendChild(listName);
+        }
     }
     return {
         update,
