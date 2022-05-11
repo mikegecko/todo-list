@@ -11,17 +11,18 @@ import {
     LoL
 } from "./todo";
 
-//TODO: Add ability to change item priority
-//TODO: Add sidebar functionality
-//TODO: Figure out how to edit existing todoItems and lists
-//      Hovering over left side of a todoItem will bring up a tooltip with edit and delete buttons
-//      Pressing edit tooltip will bring up an edit modal to edit Name/notes/dueDate/Priority
-//      Hovering over right side(due date) will bring up a tooltip with a date selector
+//Feature for completion of project:
+//TODO: Add ability to store and load data locally
+
+
+//Future features:
 //TODO: Add ability to expand & collapse projects in both project space and sidebar
-//TODO: Add ability to order projects using sidebar
 //TODO: Add ability to sort items based on either dueDate or priority (ascending and descending)
-//TODO: Generate modals dynamically
+//TODO: Add sidebar functionality
+//TODO: Add in a history view
 //TODO: Add a small notification modal for when you delete an item
+//TODO: Generate modals dynamically
+//TODO: Add ability to order projects using sidebar
 
 //Small Fixes:
 //TODO: Hide empty projects/lists when all items are complete
@@ -86,7 +87,7 @@ const DOMController = (() => {
         removeAllChildNodes(sidebarList);
         LoL.forEach(element => {
             loadProjects(element, uiCreateAddTodo(element.index));
-            console.table(element);
+            console.table(element.todoList);
         });
     }
     const loadProjects = (project, uiAddTask, uiToolTip) => {
