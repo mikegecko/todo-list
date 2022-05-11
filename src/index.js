@@ -18,7 +18,6 @@ import {
 //TODO: Add ability to sort items based on either dueDate or priority (ascending and descending)
 
 //Small Fixes:
-//TODO: Make priority reset to default for new todoItem when modal closes
 //TODO: Hide empty projects/lists when all items are complete
 
 //This should probably be broken up into separate modules
@@ -254,6 +253,7 @@ const DOMController = (() => {
         uiNewDueDate.value = "";
         //List modal
         listNewName.value = "";
+        uiUnselectAllPriority();
     }
     const submitItem = () => {
         if (uiNewName.value == "") {
@@ -275,12 +275,18 @@ const DOMController = (() => {
             toggleListModal();
         }
     }
+    //Handles completion event for todoItems
     const todoItemHandler = (event) => {
         const arr = event.currentTarget.id.split('-');
         const listIndex = arr[0];
         const itemIndex = arr[1];
         TodoItemInterface.completeItem(listIndex, itemIndex);
         update();
+    }
+    //Handles events from tooltips on todoItems
+    const tooltipHandler = (event) => {
+        //If edit pressed -> call edit modal
+        //If delete pressed -> call delete function
     }
     return {
         update,
@@ -314,7 +320,8 @@ const TodoItemInterface = (() => {
     }
 })();
 
-function listener() {
+function listener(event) {
+    event.stopPropagation();
     console.log('Button Clicked');
     DOMController.update();
 
