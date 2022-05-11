@@ -175,6 +175,9 @@ li:hover {
 .project-container {
     margin: 1rem;
     flex: 1;
+    max-height: 90vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .project-content {

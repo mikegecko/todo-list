@@ -222,8 +222,8 @@ const DOMController = (() => {
         delSpan.classList.add("material-symbols-outlined");
         editButton.id = 'E' + projIndex.toString() + itemIndex.toString();
         delButton.id = 'D' + projIndex.toString() + itemIndex.toString();
-        editButton.addEventListener('click', listener);
-        delButton.addEventListener('click', listener);
+        editButton.addEventListener('click', tooltipEditHandler);
+        delButton.addEventListener('click', tooltipDeleteHandler);
         editButton.appendChild(editSpan);
         delButton.appendChild(delSpan);
         tooltipSpan.appendChild(editButton);
@@ -284,9 +284,16 @@ const DOMController = (() => {
         update();
     }
     //Handles events from tooltips on todoItems
-    const tooltipHandler = (event) => {
-        //If edit pressed -> call edit modal
-        //If delete pressed -> call delete function
+    const tooltipEditHandler = (event) => {
+        event.stopPropagation();
+        let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
+        ref = ref.replace(/\D/g, '');
+        console.log(ref);
+    }
+    const tooltipDeleteHandler = (event) => {
+        event.stopPropagation();
+        let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
+        ref = ref.replace(/\D/g, '');
     }
     return {
         update,
