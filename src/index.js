@@ -21,6 +21,7 @@ import {
 //TODO: Add ability to order projects using sidebar
 //TODO: Add ability to sort items based on either dueDate or priority (ascending and descending)
 //TODO: Generate modals dynamically
+//TODO: Add a small notification modal for when you delete an item
 
 //Small Fixes:
 //TODO: Hide empty projects/lists when all items are complete
@@ -219,12 +220,7 @@ const DOMController = (() => {
         uiMedPriority.classList.remove("priority-selected");
         uiHighPriority.classList.remove("priority-selected");
     }
-    const setSelectedPriority = (priorityVal) => {
-        selectedPriority = priorityVal;
-    }
-    const getSelectedPriority = () => {
-        return (selectedPriority);
-    }
+
     //Creates Add button below each todo list with a unique id tying it to the proper list
     const uiCreateAddTodo = (listIndex) => {
         let id = "add" + listIndex;
@@ -321,12 +317,7 @@ const DOMController = (() => {
             toggleListModal();
         }
     }
-    const setEditFlag = (bool) => {
-        editFlag = bool;
-    }
-    const getEditFlag = () => {
-        return (editFlag)
-    }
+
     //Handles completion event for todoItems
     const todoItemHandler = (event) => {
         const arr = event.currentTarget.id.split('-');
@@ -353,6 +344,8 @@ const DOMController = (() => {
         let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
         ref = ref.replace(/\D/g, '');
         const arr = ref.split("");
+        TodoItemInterface.deleteItem(arr[0],arr[1]);
+        update();
     }
     //Generates modal title based on editing or adding todoItem
     const uiCreateListName = (listIndex, selector) => {
@@ -366,6 +359,19 @@ const DOMController = (() => {
             modalTitle.textContent = "New item for ";
             modalTitle.appendChild(listName);
         }
+    }
+    //Setters and getters
+    const setEditFlag = (bool) => {
+        editFlag = bool;
+    }
+    const getEditFlag = () => {
+        return (editFlag)
+    }
+    const setSelectedPriority = (priorityVal) => {
+        selectedPriority = priorityVal;
+    }
+    const getSelectedPriority = () => {
+        return (selectedPriority);
     }
     return {
         update,
@@ -395,12 +401,12 @@ const TodoItemInterface = (() => {
         list.todoList[itemIndex].name = name;
         list.todoList[itemIndex].notes = notes;
         list.todoList[itemIndex].priority = priority;
-        if(dueDate){
+        if (dueDate) {
             list.todoList[itemIndex].dueDate = format(parseISO(dueDate), 'PPPP');
         }
     }
-    const deleteItem = () => {
-
+    const deleteItem = (listIndex, itemIndex) => {
+        LoL[listIndex].removeTodoItem(itemIndex);
     }
     const createList = (name) => {
         const index = LoL.length;
