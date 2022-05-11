@@ -11,7 +11,8 @@ import {
     LoL
 } from "./todo";
 
-//Feature for completion of project:
+//Features for completion of project:
+//TODO: Add ability to edit and delete projects
 //TODO: Add ability to store and load data locally
 
 
