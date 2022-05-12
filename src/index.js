@@ -5,13 +5,13 @@ import {
 import {
     TodoList,
     LoL,
-    removeTodoItem
+    removeTodoItem,
+    addTodoItem
 } from "./todo";
 import {
     clearLocalStorage,
     populateStorage,
-    loadStorage,
-    testingStorage
+    loadStorage
 } from "./storage"
 
 //Features for completion of project:
@@ -33,6 +33,60 @@ import {
 //Small Fixes:
 //TODO: Hide empty projects/lists when all items are complete
 //TODO: Fix date not displaying in edit modal
+//TODO: Fix priority not resetting when adding to a new list
+
+const TodoItemInterface = (() => {
+    let listIndex = null;
+    let itemIndex = null;
+    const completeItem = (listIndex, itemIndex) => {
+        LoL[listIndex].todoList[itemIndex].isChecked = true;
+    }
+    const setListIndex = (index) => {
+        listIndex = index;
+    }
+    const setItemIndex = (index) => {
+        itemIndex = index;
+    }
+    const createItem = (name, notes, dueDate, priority) => {
+        addTodoItem(listIndex, name, notes, priority, dueDate);
+    }
+    const editItem = (name, notes, dueDate, priority) => {
+        const list = LoL[listIndex];
+        list.todoList[itemIndex].name = name;
+        list.todoList[itemIndex].notes = notes;
+        list.todoList[itemIndex].priority = priority;
+        if (dueDate) {
+            list.todoList[itemIndex].dueDate = format(parseISO(dueDate), 'PPPP');
+        }
+    }
+    const deleteItem = (listIndex, itemIndex) => {
+        removeTodoItem(listIndex, itemIndex);
+    }
+    const createList = (name) => {
+        const index = LoL.length;
+        const newList = new TodoList(name, index);
+        LoL.push(newList);
+    }
+    const editList = (name) => {
+        LoL[listIndex].name = name;
+    }
+    const deleteList = (listIndex) => {
+        LoL.splice(listIndex, 1);
+    }
+
+    return {
+        setListIndex,
+        setItemIndex,
+        createItem,
+        createList,
+        completeItem,
+        editItem,
+        deleteItem,
+        editList,
+        deleteList
+    }
+})();
+
 
 //This should probably be broken up into separate modules
 const DOMController = (() => {
@@ -89,18 +143,18 @@ const DOMController = (() => {
         loadStorage();
         update();
     }
-    //This updates the DOM to reflect data stored locally(eventually)
-    //Currently loads default project from todo.js
+    //Updates DOM
     const update = () => {
         removeAllChildNodes(projectContainer);
         removeAllChildNodes(sidebarList);
         populateStorage();
         LoL.forEach(element => {
-            loadProjects(element, uiCreateAddTodo(element.index));
+            loadProjects(element, uiCreateAddTodo(LoL.indexOf(element)));
             console.table(element.todoList);
         });
     }
-    const loadProjects = (project, uiAddTask, uiToolTip) => {
+    const loadProjects = (project, uiAddTask) => {
+        let projIndex = LoL.indexOf(project);
         //Loads projects into sidebar
         const projectSidebar = document.createElement('li');
         projectSidebar.textContent = project.name;
@@ -112,9 +166,9 @@ const DOMController = (() => {
         projectHeader.textContent = project.name;
         const projectContent = document.createElement('div');
         projectContent.classList.add("project-content");
-
+        const projectToolTip = document.createElement('div');
+        projectToolTip.classList.add("tooltip-project");
         project.todoList.forEach(element => {
-            let projIndex = LoL.indexOf(project);
             let itemIndex = project.todoList.indexOf(element);
             let identifier = LoL.indexOf(project).toString() + "-" + project.todoList.indexOf(element).toString();
             if (element.isChecked) {
@@ -127,7 +181,6 @@ const DOMController = (() => {
             const leftDiv = document.createElement('div');
             const priorityMarker = document.createElement('span');
             priorityMarker.classList.add("priority-marker", uiAssignPriorityColors(element.priority));
-            //priorityMarker.textContent = "radio_button_unchecked";
             leftDiv.appendChild(priorityMarker);
             const wrapDiv = document.createElement('div');
             wrapDiv.textContent = element.name;
@@ -145,7 +198,9 @@ const DOMController = (() => {
             projectContent.appendChild(todoDiv);
         });
         projectContent.appendChild(uiAddTask);
-        projectDiv.appendChild(projectHeader);
+        projectToolTip.appendChild(projectHeader);
+        projectToolTip.appendChild(uiCreateProjectToolTip(projIndex));
+        projectDiv.appendChild(projectToolTip);
         projectDiv.appendChild(projectContent);
         projectContainer.appendChild(projectDiv);
         return;
@@ -268,6 +323,28 @@ const DOMController = (() => {
         tooltipSpan.appendChild(delButton);
         return (tooltipSpan);
     }
+    //Creates edit and delete tooltip for todoLists
+    const uiCreateProjectToolTip = (projIndex) => {
+        const tooltipSpan = document.createElement('span');
+        tooltipSpan.classList.add("tooltiptext");
+        const editButton = document.createElement('button');
+        const delButton = document.createElement('button');
+        const editSpan = document.createElement('span');
+        const delSpan = document.createElement('span');
+        editSpan.textContent = "edit";
+        delSpan.textContent = "delete";
+        editSpan.classList.add("material-symbols-outlined");
+        delSpan.classList.add("material-symbols-outlined");
+        editButton.id = 'EP' + projIndex.toString();
+        delButton.id = 'DP' + projIndex.toString();
+        editButton.addEventListener('click', tooltipEditHandlerProject);
+        delButton.addEventListener('click', tooltipDeleteHandlerProject);
+        editButton.appendChild(editSpan);
+        delButton.appendChild(delSpan);
+        tooltipSpan.appendChild(editButton);
+        tooltipSpan.appendChild(delButton);
+        return (tooltipSpan);
+    }
     //Handles modals (could use refactoring)
     const uiModalControl = (event) => {
         let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
@@ -291,6 +368,9 @@ const DOMController = (() => {
         uiNewDueDate.value = parseISO(list.todoList[itemIndex].dueDate); //Fix this
         uiPrioritySelect(list.todoList[itemIndex].priority);
     }
+    const loadEditModalProject = (listIndex) => {
+        listNewName.value = LoL[listIndex].name;
+    }
     const clearModalInputs = () => {
         if (!getEditFlag()) {
             //Todo modal
@@ -304,6 +384,7 @@ const DOMController = (() => {
             return;
         }
     }
+    //Submits todoItem data
     const submitItem = () => {
         if (uiNewName.value == "") {
             alert("Please enter a name.");
@@ -320,11 +401,18 @@ const DOMController = (() => {
         }
 
     }
+    //Submits todoList data
     const submitList = () => {
         if (listNewName.value == "") {
             alert("Please enter a name.")
         } else {
-            TodoItemInterface.createList(listNewName.value);
+            if(getEditFlag()){
+                TodoItemInterface.editList(listNewName.value);
+                setEditFlag(false);
+            }
+            else{
+                TodoItemInterface.createList(listNewName.value);
+            }
             update();
             toggleListModal();
         }
@@ -363,6 +451,7 @@ const DOMController = (() => {
     const uiCreateListName = (listIndex, selector) => {
         const listName = document.createElement('span');
         listName.classList.add("list-name");
+        console.log(listIndex);
         listName.textContent = LoL[listIndex].name;
         if (selector == 1) {
             modalTitle.textContent = "Editing item in ";
@@ -371,6 +460,24 @@ const DOMController = (() => {
             modalTitle.textContent = "New item for ";
             modalTitle.appendChild(listName);
         }
+    }
+    const tooltipEditHandlerProject = (event) => {
+        event.stopPropagation();
+        setEditFlag(true);
+        let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
+        ref = ref.replace(/\D/g, '');
+        //uiCreateListName(arr[0], 1); 
+        TodoItemInterface.setListIndex(ref); //This is important for selecting the right list
+        loadEditModalProject(ref);
+        toggleListModal();
+    }
+    const tooltipDeleteHandlerProject = (event) => {
+        event.stopPropagation();
+        let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
+        ref = ref.replace(/\D/g, '');
+        console.log(ref);
+        TodoItemInterface.deleteList(ref);
+        update();
     }
     //Setters and getters
     const setEditFlag = (bool) => {
@@ -394,50 +501,6 @@ const DOMController = (() => {
 DOMController.uiAddHandlers();
 DOMController.onPageLoad();
 
-const TodoItemInterface = (() => {
-    let listIndex = null;
-    let itemIndex = null;
-    const completeItem = (listIndex, itemIndex) => {
-        LoL[listIndex].todoList[itemIndex].isChecked = true;
-    }
-    const setListIndex = (index) => {
-        listIndex = index;
-    }
-    const setItemIndex = (index) => {
-        itemIndex = index;
-    }
-    const createItem = (name, notes, dueDate, priority) => {
-        const list = LoL[listIndex];
-        list.addTodoItem(name, notes, priority, dueDate);
-    }
-    const editItem = (name, notes, dueDate, priority) => {
-        const list = LoL[listIndex];
-        list.todoList[itemIndex].name = name;
-        list.todoList[itemIndex].notes = notes;
-        list.todoList[itemIndex].priority = priority;
-        if (dueDate) {
-            list.todoList[itemIndex].dueDate = format(parseISO(dueDate), 'PPPP');
-        }
-    }
-    const deleteItem = (listIndex, itemIndex) => {
-        removeTodoItem(listIndex, itemIndex);
-    }
-    const createList = (name) => {
-        const index = LoL.length;
-        const newList = new TodoList(name, index);
-        LoL.push(newList);
-    }
-    
-    return {
-        setListIndex,
-        setItemIndex,
-        createItem,
-        createList,
-        completeItem,
-        editItem,
-        deleteItem
-    }
-})();
 
 function listener(event) {
     event.stopPropagation();
