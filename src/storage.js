@@ -1,5 +1,8 @@
 //Detects whether localStorage is supported and available
 //Used by calling either:
+
+import { LoL,TodoList,TodoItem } from "./todo";
+
 //  storageAvailable('localStorage') or storageAvailable('sessionStorage')
 function storageAvailable(type) {
     let storage;
@@ -24,14 +27,47 @@ function storageAvailable(type) {
             (storage && storage.length !== 0);
     }
 }
+//Methods for setting and getting objects/arrays
+Storage.prototype.setObject = function(key,object){
+    return this.setItem(key, JSON.stringify(object))
+}
+Storage.prototype.getObject = function(key){
+    return JSON.parse(this.getItem(key));
+}
 function clearLocalStorage () {
     localStorage.clear();
 }
 //Saves data to storage
 function populateStorage () {
-
+    localStorage.setObject('projects', LoL);
 }
 //Loads storage data into objects
 function loadStorage () {
-
+    let jsonList = localStorage.getObject('projects');
+    jsonList.forEach(item => {
+        for (const key in TodoList) {
+            if (Object.hasOwnProperty.call(TodoList, key)) {
+                item[key] = TodoList[key];
+            }
+        }
+        LoL.push(item);
+    });
+    // jsonList.forEach(element => {
+    //     Object.assign(element, TodoList);
+    //     element.todoList.forEach(item => {
+    //         Object.assign(item, TodoItem);
+    //     });
+    //     LoL.push(element);
+    // });
+    
+}
+function testingStorage (){
+    localStorage.setObject('projects', LoL);
+    console.log(localStorage.getObject('projects'));
+}
+export{
+    clearLocalStorage,
+    populateStorage,
+    loadStorage,
+    testingStorage
 }
