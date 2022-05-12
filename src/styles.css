@@ -84,7 +84,8 @@ button:hover {
 }
 
 .tooltip,
-.tooltip-right {
+.tooltip-right,
+.tooltip-project {
     position: relative;
     display: inline-block;
 }
@@ -137,6 +138,25 @@ button:hover {
     z-index: 1;
     width: 120px;
     top: -5px;
+    left: 100%;
+    font-size: 14px;
+}
+
+.tooltip-project:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip-project .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    color: #797979;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    top: 15px;
     left: 100%;
     font-size: 14px;
 }
