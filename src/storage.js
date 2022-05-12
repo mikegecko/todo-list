@@ -1,7 +1,11 @@
 //Detects whether localStorage is supported and available
 //Used by calling either:
 
-import { LoL,TodoList,TodoItem } from "./todo";
+import {
+    LoL,
+    TodoList,
+    TodoItem
+} from "./todo";
 
 //  storageAvailable('localStorage') or storageAvailable('sessionStorage')
 function storageAvailable(type) {
@@ -28,30 +32,41 @@ function storageAvailable(type) {
     }
 }
 //Methods for setting and getting objects/arrays
-Storage.prototype.setObject = function(key,object){
+Storage.prototype.setObject = function (key, object) {
     return this.setItem(key, JSON.stringify(object))
 }
-Storage.prototype.getObject = function(key){
+Storage.prototype.getObject = function (key) {
     return JSON.parse(this.getItem(key));
 }
-function clearLocalStorage () {
+
+function clearLocalStorage() {
     localStorage.clear();
 }
 //Saves data to storage
-function populateStorage () {
+function populateStorage() {
     localStorage.setObject('projects', LoL);
 }
 //Loads storage data into objects
-function loadStorage () {
+function loadStorage() {
     let jsonList = localStorage.getObject('projects');
-    jsonList.forEach(item => {
-        for (const key in TodoList) {
-            if (Object.hasOwnProperty.call(TodoList, key)) {
-                item[key] = TodoList[key];
+    if (jsonList == null) {
+        const defaultList = new TodoList("Default Project", LoL.length);
+        LoL.push(defaultList);
+        defaultList.addTodoItem("Clean Room", "Use vacuum", 1);
+        defaultList.addTodoItem("Play games", "Minecraft", 2);
+        defaultList.addTodoItem("Play games", "No Man's Sky", 3);
+        defaultList.addTodoItem("Play games", "Apex Legends", 4);
+    } else {
+        jsonList.forEach(item => {
+            for (const key in TodoList) {
+                if (Object.hasOwnProperty.call(TodoList, key)) {
+                    item[key] = TodoList[key];
+                }
             }
-        }
-        LoL.push(item);
-    });
+            LoL.push(item);
+        });
+    }
+
     // jsonList.forEach(element => {
     //     Object.assign(element, TodoList);
     //     element.todoList.forEach(item => {
@@ -59,13 +74,14 @@ function loadStorage () {
     //     });
     //     LoL.push(element);
     // });
-    
+
 }
-function testingStorage (){
+
+function testingStorage() {
     localStorage.setObject('projects', LoL);
     console.log(localStorage.getObject('projects'));
 }
-export{
+export {
     clearLocalStorage,
     populateStorage,
     loadStorage,
