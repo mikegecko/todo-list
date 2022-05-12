@@ -3,13 +3,16 @@ import {
     parseISO
 } from "date-fns";
 import {
-    it
-} from "date-fns/locale";
-import {
-    TodoItem,
     TodoList,
-    LoL
+    LoL,
+    removeTodoItem
 } from "./todo";
+import {
+    clearLocalStorage,
+    populateStorage,
+    loadStorage,
+    testingStorage
+} from "./storage"
 
 //Features for completion of project:
 //TODO: Add ability to edit and delete projects
@@ -40,7 +43,7 @@ const DOMController = (() => {
     //Button Selectors
     const addProjectBtn = document.querySelector('#addProject');
     const editProjectBtn = document.querySelector('#editProject');
-    const delProjectBtn = document.querySelector('#delProject');
+    const saveProjectBtn = document.querySelector('#saveProject');
     const todoToggleBtn = document.querySelector('#viewToggle');
     const delLocalDataBtn = document.querySelector('#delLocalData');
     //Todo Modal
@@ -48,7 +51,6 @@ const DOMController = (() => {
     const modalTitle = document.querySelector('.modal-title');
     const modalClose = document.querySelector('#T');
     const modalListClose = document.querySelector('#L');
-    const uiListName = document.querySelector('.list-name');
     const uiNewName = document.querySelector('#newName');
     const uiNewNote = document.querySelector('#newNotes');
     const uiNewDueDate = document.querySelector('#newDueDate');
@@ -67,9 +69,9 @@ const DOMController = (() => {
         //Control bar events
         addProjectBtn.addEventListener('click', toggleListModal);
         editProjectBtn.addEventListener('click', listener);
-        delProjectBtn.addEventListener('click', listener);
-        todoToggleBtn.addEventListener('click', listener);
-        delLocalDataBtn.addEventListener('click', listener);
+        saveProjectBtn.addEventListener('click', listener);
+        todoToggleBtn.addEventListener('click', onPageLoad);
+        delLocalDataBtn.addEventListener('click', clearLocalStorage);
         //Modal events
         modalClose.addEventListener('click', toggleItemModal);
         modalListClose.addEventListener('click', toggleListModal);
@@ -81,11 +83,16 @@ const DOMController = (() => {
         uiMedPriority.addEventListener('click', uiPrioritySelect);
         uiHighPriority.addEventListener('click', uiPrioritySelect);
     }
+    const onPageLoad = () => {
+        loadStorage();
+        update();
+    }
     //This updates the DOM to reflect data stored locally(eventually)
     //Currently loads default project from todo.js
     const update = () => {
         removeAllChildNodes(projectContainer);
         removeAllChildNodes(sidebarList);
+        populateStorage();
         LoL.forEach(element => {
             loadProjects(element, uiCreateAddTodo(element.index));
             console.table(element.todoList);
@@ -347,7 +354,7 @@ const DOMController = (() => {
         let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
         ref = ref.replace(/\D/g, '');
         const arr = ref.split("");
-        TodoItemInterface.deleteItem(arr[0],arr[1]);
+        TodoItemInterface.deleteItem(arr[0], arr[1]);
         update();
     }
     //Generates modal title based on editing or adding todoItem
@@ -378,10 +385,12 @@ const DOMController = (() => {
     }
     return {
         update,
-        uiAddHandlers
+        uiAddHandlers,
+        onPageLoad
     };
 })();
 DOMController.uiAddHandlers();
+DOMController.onPageLoad();
 
 const TodoItemInterface = (() => {
     let listIndex = null;
@@ -409,13 +418,14 @@ const TodoItemInterface = (() => {
         }
     }
     const deleteItem = (listIndex, itemIndex) => {
-        LoL[listIndex].removeTodoItem(itemIndex);
+        removeTodoItem(listIndex, itemIndex);
     }
     const createList = (name) => {
         const index = LoL.length;
         const newList = new TodoList(name, index);
         LoL.push(newList);
     }
+    
     return {
         setListIndex,
         setItemIndex,
