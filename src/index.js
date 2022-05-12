@@ -451,7 +451,6 @@ const DOMController = (() => {
     const uiCreateListName = (listIndex, selector) => {
         const listName = document.createElement('span');
         listName.classList.add("list-name");
-        console.log(listIndex);
         listName.textContent = LoL[listIndex].name;
         if (selector == 1) {
             modalTitle.textContent = "Editing item in ";
@@ -475,7 +474,6 @@ const DOMController = (() => {
         event.stopPropagation();
         let ref = event.currentTarget.id; //This id will allow us to know which List to add the todo
         ref = ref.replace(/\D/g, '');
-        console.log(ref);
         TodoItemInterface.deleteList(ref);
         update();
     }
