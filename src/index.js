@@ -13,7 +13,7 @@ import {
     populateStorage,
     loadStorage
 } from "./storage"
-
+import style from "./styles.css";
 //Features for completion of project:
 //TODO: Add ability to edit and delete projects
 
