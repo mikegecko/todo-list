@@ -50,12 +50,8 @@ function populateStorage() {
 function loadStorage() {
     let jsonList = localStorage.getObject('projects');
     if (jsonList == null) {
-        const defaultList = new TodoList("Default Project", LoL.length);
+        const defaultList = new TodoList("Default List", LoL.length);
         LoL.push(defaultList);
-        defaultList.addTodoItem("Clean Room", "Use vacuum", 1);
-        defaultList.addTodoItem("Play games", "Minecraft", 2);
-        defaultList.addTodoItem("Play games", "No Man's Sky", 3);
-        defaultList.addTodoItem("Play games", "Apex Legends", 4);
     } else {
         jsonList.forEach(item => {
             for (const key in TodoList) {
