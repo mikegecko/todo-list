@@ -37,7 +37,7 @@ import {
 
 //TODO: Setup storage methods for fetching and setting JSON data in localStorage
 //TODO: Order/sort todoList array based on dueDate or priority
-
+const LoL = []; //List of Lists
 //TodoList Constructor
 function TodoList(name, index, todoList) {
     this.name = name || "";
@@ -47,15 +47,6 @@ function TodoList(name, index, todoList) {
         let newID = this.todoList.length;
         let newTodoItem = new TodoItem(name, newID, dueDate, notes, priority, isChecked)
         this.todoList.push(newTodoItem);
-    }
-    this.removeTodoItem = function (id) {
-        this.todoList.splice(id, 1);
-        this.updateId();
-    }
-    this.updateId = function () {
-        this.todoList.forEach(element => {
-            element.id = this.todoList.indexOf(element);
-        });
     }
 }
 //TodoItem Constructor
@@ -67,17 +58,29 @@ function TodoItem(name, id, dueDate, notes, priority, isChecked) {
     this.isChecked = isChecked || false;
     this.id = id;
 }
+
+function removeTodoItem(listID, itemID){
+    LoL[listID].todoList.splice(itemID,1);
+    updateID(listID);
+}
+function updateID(listID) {
+    LoL[listID].todoList.forEach(element => {
+        element.id = LoL[listID].todoList.indexOf(element);
+    });
+}
+
+
 //Testing values & methods
-const LoL = []; //List of Lists
-const defaultList = new TodoList("Default Project", LoL.length);
-LoL.push(defaultList);
-defaultList.addTodoItem("Clean Room", "Use vacuum", 1);
-defaultList.addTodoItem("Play games", "Minecraft", 2);
-defaultList.addTodoItem("Play games", "No Man's Sky", 3);
-defaultList.addTodoItem("Play games", "Apex Legends", 4);
+// const defaultList = new TodoList("Default Project", LoL.length);
+// LoL.push(defaultList);
+// defaultList.addTodoItem("Clean Room", "Use vacuum", 1);
+// defaultList.addTodoItem("Play games", "Minecraft", 2);
+// defaultList.addTodoItem("Play games", "No Man's Sky", 3);
+// defaultList.addTodoItem("Play games", "Apex Legends", 4);
 
 export {
     TodoList,
     TodoItem,
-    LoL
+    LoL,
+    removeTodoItem
 }
