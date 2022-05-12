@@ -35,7 +35,7 @@ import {
     formatISO
 } from "date-fns";
 
-//TODO: Setup storage methods for fetching and setting JSON data in localStorage
+//TODO: write methods for deleting a TodoList
 //TODO: Order/sort todoList array based on dueDate or priority
 const LoL = []; //List of Lists
 //TodoList Constructor

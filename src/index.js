@@ -16,8 +16,10 @@ import {
 
 //Features for completion of project:
 //TODO: Add ability to edit and delete projects
-//TODO: Add ability to store and load data locally
 
+//Important features:
+//TODO: Add a 'miscellaneous' default list for any new users
+//TODO: Add in a home view that shows all lists, clicking on a sidebar list will hide all other lists
 
 //Future features:
 //TODO: Add ability to expand & collapse projects in both project space and sidebar
@@ -70,7 +72,7 @@ const DOMController = (() => {
         addProjectBtn.addEventListener('click', toggleListModal);
         editProjectBtn.addEventListener('click', listener);
         saveProjectBtn.addEventListener('click', listener);
-        todoToggleBtn.addEventListener('click', onPageLoad);
+        todoToggleBtn.addEventListener('click', listener);
         delLocalDataBtn.addEventListener('click', clearLocalStorage);
         //Modal events
         modalClose.addEventListener('click', toggleItemModal);
