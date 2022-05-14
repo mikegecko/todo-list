@@ -1,85 +1,84 @@
-//Detects whether localStorage is supported and available
-//Used by calling either:
+// Detects whether localStorage is supported and available
+// Used by calling either:
 
 import {
-    LoL,
-    TodoList,
-    TodoItem
-} from "./todo";
+  LoL,
+  TodoList,
+  TodoItem,
+} from './todo';
 
 //  storageAvailable('localStorage') or storageAvailable('sessionStorage')
 function storageAvailable(type) {
-    let storage;
-    try {
-        storage = window[type];
-        var x = '__storage_test__';
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        return true;
-    } catch (e) {
-        return e instanceof DOMException && (
-                // everything except Firefox
-                e.code === 22 ||
+  let storage;
+  try {
+    storage = window[type];
+    const x = '__storage_test__';
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return e instanceof DOMException && (
+    // everything except Firefox
+      e.code === 22
                 // Firefox
-                e.code === 1014 ||
+                || e.code === 1014
                 // test name field too, because code might not be present
                 // everything except Firefox
-                e.name === 'QuotaExceededError' ||
+                || e.name === 'QuotaExceededError'
                 // Firefox
-                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+                || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')
             // acknowledge QuotaExceededError only if there's something already stored
-            (storage && storage.length !== 0);
-    }
+            && (storage && storage.length !== 0);
+  }
 }
-//Methods for setting and getting objects/arrays
+// Methods for setting and getting objects/arrays
 Storage.prototype.setObject = function (key, object) {
-    return this.setItem(key, JSON.stringify(object))
+  return this.setItem(key, JSON.stringify(object))
 }
 Storage.prototype.getObject = function (key) {
-    return JSON.parse(this.getItem(key));
+  return JSON.parse(this.getItem(key));
 }
 
 function clearLocalStorage() {
-    localStorage.clear();
+  localStorage.clear();
 }
-//Saves data to storage
+// Saves data to storage
 function populateStorage() {
-    localStorage.setObject('projects', LoL);
+  localStorage.setObject('projects', LoL);
 }
-//Loads storage data into objects
+// Loads storage data into objects
 function loadStorage() {
-    let jsonList = localStorage.getObject('projects');
-    if (jsonList == null) {
-        const defaultList = new TodoList("Default List", LoL.length);
-        LoL.push(defaultList);
-    } else {
-        jsonList.forEach(item => {
-            for (const key in TodoList) {
-                if (Object.hasOwnProperty.call(TodoList, key)) {
-                    item[key] = TodoList[key];
-                }
-            }
-            LoL.push(item);
-        });
-    }
+  const jsonList = localStorage.getObject('projects');
+  if (jsonList == null) {
+    const defaultList = new TodoList('Default List', LoL.length);
+    LoL.push(defaultList);
+  } else {
+    jsonList.forEach(item => {
+      for (const key in TodoList) {
+        if (Object.hasOwnProperty.call(TodoList, key)) {
+          item[key] = TodoList[key];
+        }
+      }
+      LoL.push(item);
+    });
+  }
 
-    // jsonList.forEach(element => {
-    //     Object.assign(element, TodoList);
-    //     element.todoList.forEach(item => {
-    //         Object.assign(item, TodoItem);
-    //     });
-    //     LoL.push(element);
-    // });
-
+  // jsonList.forEach(element => {
+  //     Object.assign(element, TodoList);
+  //     element.todoList.forEach(item => {
+  //         Object.assign(item, TodoItem);
+  //     });
+  //     LoL.push(element);
+  // });
 }
 
 function testingStorage() {
-    localStorage.setObject('projects', LoL);
-    console.log(localStorage.getObject('projects'));
+  localStorage.setObject('projects', LoL);
+  console.log(localStorage.getObject('projects'));
 }
 export {
-    clearLocalStorage,
-    populateStorage,
-    loadStorage,
-    testingStorage
-}
+  clearLocalStorage,
+  populateStorage,
+  loadStorage,
+  testingStorage,
+};
