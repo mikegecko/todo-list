@@ -1,18 +1,6 @@
-import {
-  format,
-  parseISO,
-} from 'date-fns';
-import {
-  TodoList,
-  LoL,
-  removeTodoItem,
-  addTodoItem,
-} from './todo';
-import {
-  clearLocalStorage,
-  populateStorage,
-  loadStorage,
-} from './storage';
+import { format, parseISO } from 'date-fns';
+import { TodoList, LoL, removeTodoItem, addTodoItem } from './todo';
+import { clearLocalStorage, populateStorage, loadStorage } from './storage';
 import style from './styles.css';
 // Features for completion of project:
 // TODO: Add ability to edit and delete projects
@@ -169,7 +157,9 @@ const DOMController = (() => {
     projectToolTip.classList.add('tooltip-project');
     project.todoList.forEach((element) => {
       const itemIndex = project.todoList.indexOf(element);
-      const identifier = `${LoL.indexOf(project).toString()}-${project.todoList.indexOf(element).toString()}`;
+      const identifier = `${LoL.indexOf(project).toString()}-${project.todoList
+        .indexOf(element)
+        .toString()}`;
       if (element.isChecked) {
         return;
       }
@@ -179,7 +169,10 @@ const DOMController = (() => {
       todoDiv.addEventListener('click', todoItemHandler);
       const leftDiv = document.createElement('div');
       const priorityMarker = document.createElement('span');
-      priorityMarker.classList.add('priority-marker', uiAssignPriorityColors(element.priority));
+      priorityMarker.classList.add(
+        'priority-marker',
+        uiAssignPriorityColors(element.priority)
+      );
       leftDiv.appendChild(priorityMarker);
       const wrapDiv = document.createElement('div');
       wrapDiv.textContent = element.name;
@@ -211,21 +204,21 @@ const DOMController = (() => {
     const highP = 'high-priority';
     switch (priorityVal) {
       case 0:
-        return (defP);
+        return defP;
       case 1:
-        return (lowP);
+        return lowP;
       case 2:
-        return (medP);
+        return medP;
       case 3:
-        return (highP);
+        return highP;
       default:
-        return (defP);
+        return defP;
     }
   };
   // Handles selection of priority in todoItem modal
   const uiPrioritySelect = (event) => {
     let eventId = event;
-    if (typeof (event) === 'object') {
+    if (typeof event === 'object') {
       eventId = event.currentTarget.id;
     } else {
       switch (eventId) {
@@ -292,7 +285,7 @@ const DOMController = (() => {
     addItem.appendChild(spanAdd);
     addItem.id = id;
     addItem.addEventListener('click', uiModalControl);
-    return (addItem);
+    return addItem;
   };
   // Creates edit and delete tooltip for todoItems
   const uiCreateToolTip = (projIndex, itemIndex) => {
@@ -314,7 +307,7 @@ const DOMController = (() => {
     delButton.appendChild(delSpan);
     tooltipSpan.appendChild(editButton);
     tooltipSpan.appendChild(delButton);
-    return (tooltipSpan);
+    return tooltipSpan;
   };
   // Creates edit and delete tooltip for todoLists
   const uiCreateProjectToolTip = (projIndex) => {
@@ -336,7 +329,7 @@ const DOMController = (() => {
     delButton.appendChild(delSpan);
     tooltipSpan.appendChild(editButton);
     tooltipSpan.appendChild(delButton);
-    return (tooltipSpan);
+    return tooltipSpan;
   };
   // Handles modals (could use refactoring)
   const uiModalControl = (event) => {
@@ -374,7 +367,6 @@ const DOMController = (() => {
       listNewName.value = '';
       uiUnselectAllPriority();
     } else {
-
     }
   };
   // Submits todoItem data
@@ -384,10 +376,20 @@ const DOMController = (() => {
     } else {
       const newPriority = getSelectedPriority();
       if (getEditFlag()) {
-        TodoItemInterface.editItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value, newPriority);
+        TodoItemInterface.editItem(
+          uiNewName.value,
+          uiNewNote.value,
+          uiNewDueDate.value,
+          newPriority
+        );
         setEditFlag(false);
       } else {
-        TodoItemInterface.createItem(uiNewName.value, uiNewNote.value, uiNewDueDate.value, newPriority);
+        TodoItemInterface.createItem(
+          uiNewName.value,
+          uiNewNote.value,
+          uiNewDueDate.value,
+          newPriority
+        );
       }
       update();
       toggleItemModal();
@@ -472,11 +474,11 @@ const DOMController = (() => {
   const setEditFlag = (bool) => {
     editFlag = bool;
   };
-  const getEditFlag = () => (editFlag);
+  const getEditFlag = () => editFlag;
   const setSelectedPriority = (priorityVal) => {
     selectedPriority = priorityVal;
   };
-  const getSelectedPriority = () => (selectedPriority);
+  const getSelectedPriority = () => selectedPriority;
   return {
     update,
     uiAddHandlers,
